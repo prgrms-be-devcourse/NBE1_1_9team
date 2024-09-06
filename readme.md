@@ -55,3 +55,6 @@
 ## 추가 기능
 
 - 재고 관리 (동시성)
+![스크린샷 2024-09-06 오전 11 39 51](https://github.com/user-attachments/assets/f0f53edf-a462-4cca-b71e-b3475c312857)
+
+
