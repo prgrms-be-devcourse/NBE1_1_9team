@@ -60,6 +60,7 @@
 ![스크린샷 2024-09-06 145808](https://github.com/user-attachments/assets/f11fcf9b-997b-4984-a651-410c0e39ee90)
 
 ## 테이블 생성 SQL
+```sql
 CREATE TABLE products
 (
     product_id   BINARY(16) PRIMARY KEY,
@@ -96,4 +97,4 @@ CREATE TABLE order_items
     CONSTRAINT fk_order_items_to_order FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE CASCADE,
     CONSTRAINT fk_order_items_to_product FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
-
+```
