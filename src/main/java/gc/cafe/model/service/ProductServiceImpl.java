@@ -23,7 +23,13 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public String addProduct(ProductDto dto) {
-        productRepository.save(ProductDto.toEntity(dto));
+        productRepository.save(ProductDto.createWithNewId(dto));
         return "저장완료";
+    }
+
+    @Override
+    public String updateProduct(ProductDto dto) {
+        productRepository.save(ProductDto.createWithExistingId(dto));
+        return "수정완료";
     }
 }

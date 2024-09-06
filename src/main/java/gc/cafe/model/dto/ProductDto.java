@@ -19,9 +19,19 @@ public class ProductDto {
     private String updatedAt;
 
 
-    public static Products toEntity(ProductDto dto) {
+    public static Products createWithNewId(ProductDto dto) {
         return Products.builder()
                 .id(UuidUtils.generateId())
+                .name(dto.getName())
+                .category(dto.getCategory())
+                .price(dto.getPrice())
+                .description(dto.getDescription())
+                .build();
+    }
+
+    public static Products createWithExistingId(ProductDto dto) {
+        return Products.builder()
+                .id(UuidUtils.convertStringToBytes(dto.getId()))
                 .name(dto.getName())
                 .category(dto.getCategory())
                 .price(dto.getPrice())

@@ -18,13 +18,10 @@ public class UuidUtils {
         String[] splitUuid = newUuid.toString().split("-");
         String custom = splitUuid[3] + splitUuid[2] + splitUuid[1] + splitUuid[0] + splitUuid[4];
 
-        ByteBuffer bb = ByteBuffer.wrap(new byte[BYTES_SIZE]);
-        bb.putLong(Long.parseUnsignedLong(custom.substring(0, BYTES_SIZE), 16));
-        bb.putLong(Long.parseUnsignedLong(custom.substring(BYTES_SIZE), 16));
-        return bb.array();
+        return convertStringToBytes(custom);
     }
 
-    public static String bytesToString(byte[] id) {
+    public static String convertBytesToString(byte[] id) {
         char[] hexChars = new char[id.length * 2];
         for (int i = 0; i < id.length; i++) {
             int v = id[i] & 0xFF;
@@ -32,5 +29,12 @@ public class UuidUtils {
             hexChars[i * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars).toLowerCase();
+    }
+
+    public static byte[] convertStringToBytes(String id) {
+        ByteBuffer bb = ByteBuffer.wrap(new byte[BYTES_SIZE]);
+        bb.putLong(Long.parseUnsignedLong(id.substring(0, BYTES_SIZE), 16));
+        bb.putLong(Long.parseUnsignedLong(id.substring(BYTES_SIZE), 16));
+        return bb.array();
     }
 }

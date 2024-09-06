@@ -16,7 +16,7 @@ public class ProductController {
 
     private final ProductService productService;
     @GetMapping("/products")
-    public ResponseEntity<List<ProductDto>> getList() {
+    public ResponseEntity<List<ProductDto>> getProductList() {
         return ResponseEntity.ok().body(productService.getProductList());
     }
 
@@ -25,4 +25,8 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.addProduct(dto));
     }
 
+    @PutMapping("/product/update")
+    public ResponseEntity<String> updateProduct(@RequestBody ProductDto dto) {
+        return ResponseEntity.ok().body(productService.updateProduct(dto));
+    }
 }
