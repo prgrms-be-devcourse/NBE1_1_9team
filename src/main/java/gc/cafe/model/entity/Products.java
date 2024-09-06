@@ -45,7 +45,7 @@ public class Products {
 
     public static ProductDto toDto(Products p) {
         return ProductDto.builder()
-                .id(UuidUtils.bytesToString(p.getId()))
+                .id(UuidUtils.convertBytesToString(p.getId()))
                 .name(p.getName())
                 .category(p.getCategory())
                 .price(p.getPrice())
