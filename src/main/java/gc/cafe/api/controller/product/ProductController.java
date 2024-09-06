@@ -2,6 +2,7 @@ package gc.cafe.api.controller.product;
 
 import gc.cafe.api.ApiResponse;
 import gc.cafe.api.controller.product.request.ProductCreateRequest;
+import gc.cafe.api.controller.product.request.ProductUpdateRequest;
 import gc.cafe.api.service.product.ProductService;
 import gc.cafe.api.service.product.response.ProductResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,16 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Long>> deleteProduct(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok(productService.deleteProduct(id)));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(@PathVariable Long id, @RequestBody ProductUpdateRequest request) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.updateProduct(id, request.toServiceRequest())));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductResponse>> getProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.ok(productService.getProduct(id)));
     }
 
 }
