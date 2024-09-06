@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: cafe
+
+  config:
+    import: config/config.yml
