@@ -5,4 +5,6 @@ import gc.cafe.api.service.product.response.ProductResponse;
 
 public interface ProductService {
     ProductResponse createProduct(ProductCreateServiceRequest request);
+
+    Long deleteProduct(Long id);
 }

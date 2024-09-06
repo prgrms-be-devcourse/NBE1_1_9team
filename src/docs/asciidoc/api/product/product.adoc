@@ -8,3 +8,14 @@ include::{snippets}/product-create/request-fields.adoc[]
 ==== HTTP Response
 include::{snippets}/product-create/http-response.adoc[]
 include::{snippets}/product-create/response-fields.adoc[]
+
+[[product-delete]]
+=== 상품 삭제
+
+==== HTTP Request
+include::{snippets}/product-delete/http-request.adoc[]
+include::{snippets}/product-delete/path-parameters.adoc[]
+
+==== HTTP Response
+include::{snippets}/product-delete/http-response.adoc[]
+include::{snippets}/product-delete/response-fields.adoc[]
