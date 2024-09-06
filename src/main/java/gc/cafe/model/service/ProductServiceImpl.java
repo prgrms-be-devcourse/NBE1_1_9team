@@ -20,4 +20,10 @@ public class ProductServiceImpl implements ProductService{
                 .map(Products::toDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String addProduct(ProductDto dto) {
+        productRepository.save(ProductDto.toEntity(dto));
+        return "저장완료";
+    }
 }

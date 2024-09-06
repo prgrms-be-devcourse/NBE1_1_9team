@@ -8,4 +8,5 @@ public interface ProductService {
 
     List<ProductDto> getProductList();
 
+    String addProduct(ProductDto dto);
 }
