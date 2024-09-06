@@ -6,7 +6,7 @@ import gc.cafe.product.dto.ProductListResponse;
 import gc.cafe.product.dto.ProductResponse;
 import gc.cafe.product.dto.ProductSimpleResponse;
 import gc.cafe.product.dto.ProductUpdateRequest;
-import gc.cafe.product.entity.Product;
+import gc.cafe.product.domain.Product;
 import gc.cafe.product.repository.ProductRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
