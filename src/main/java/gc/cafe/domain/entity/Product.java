@@ -20,11 +20,9 @@ public class Product extends BaseEntity{
     @Column(nullable = false, length = 20)
     private String productName;
     @Column(nullable = false, length = 50)
-    private String category;
+    private Category category;
     @Column(nullable = false)
     private Long price;
     @Column(nullable = false, length = 500)
     private String description;
-    @OneToMany(mappedBy = "product")
-    private List<OrderItem> orderItems = new ArrayList<>();
 }

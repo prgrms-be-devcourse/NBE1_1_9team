@@ -22,9 +22,8 @@ public class Order extends BaseEntity {
     private String address;
     @Column(nullable = false, length = 200)
     private String postcode;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
-    private String orderStatus;
-    @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private OrderStatus orderStatus;
 
 }

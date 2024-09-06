@@ -18,11 +18,9 @@ public class OrderItem {
     private Long price;
     @Column(nullable = false)
     private int quantity;
+    @Column(nullable = false)
+    private Long orderId;
+    @Column(nullable = false)
+    private Long productId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId",nullable = false)
-    private Order order;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productId",nullable = false)
-    private Product product;
 }
