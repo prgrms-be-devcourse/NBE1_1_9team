@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 
+import static gc.cafe.docs.RestDocsConfig.field;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -66,13 +67,16 @@ public class ProductControllerDocsTest extends RestDocsSupport {
                 preprocessResponse(prettyPrint()),
                 requestFields(
                     fieldWithPath("name").type(JsonFieldType.STRING)
-                        .description("상품 이름"),
+                        .description("상품 이름")
+                        .attributes(field("constraints", "최대 20자")),
                     fieldWithPath("category").type(JsonFieldType.STRING)
-                        .description("상품 카테고리"),
+                        .description("상품 카테고리")
+                        .attributes(field("constraints", "최대 50자")),
                     fieldWithPath("price").type(JsonFieldType.NUMBER)
                         .description("상품 가격"),
                     fieldWithPath("description").type(JsonFieldType.STRING)
                         .description("상품 상세 설명")
+                        .attributes(field("constraints", "최대 500자"))
                 ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)
@@ -164,13 +168,17 @@ public class ProductControllerDocsTest extends RestDocsSupport {
                 preprocessResponse(prettyPrint()),
                 requestFields(
                     fieldWithPath("name").type(JsonFieldType.STRING)
-                        .description("상품 이름"),
+                        .description("상품 이름")
+                        .attributes(field("constraints", "최대 20자")),
                     fieldWithPath("category").type(JsonFieldType.STRING)
-                        .description("상품 카테고리"),
+                        .description("상품 카테고리")
+                        .attributes(field("constraints", "최대 50자")),
                     fieldWithPath("price").type(JsonFieldType.NUMBER)
-                        .description("상품 가격"),
+                        .description("상품 가격")
+                        .attributes(field("constraints", "0 이상")),
                     fieldWithPath("description").type(JsonFieldType.STRING)
                         .description("상품 상세 설명")
+                        .attributes(field("constraints", "최대 500자"))
                 ),
                 pathParameters(
                     parameterWithName("id")
@@ -248,7 +256,4 @@ public class ProductControllerDocsTest extends RestDocsSupport {
                 )
             ));
     }
-
-
-
 }

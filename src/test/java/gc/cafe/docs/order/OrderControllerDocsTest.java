@@ -87,14 +87,14 @@ public class OrderControllerDocsTest extends RestDocsSupport {
                 requestFields(
                     fieldWithPath("email").type(JsonFieldType.STRING)
                         .description("주문자 이메일")
-                        .attributes(field("constraints",  "50자 이하"))
+                        .attributes(field("constraints",  "최대 50자"))
                         .attributes(field("format", "XXXX@gamil.com 과 같은 이메일 형식")),
                     fieldWithPath("address").type(JsonFieldType.STRING)
                         .description("주문자 주소")
-                        .attributes(field("constraints", "길이 200 이하")),
+                        .attributes(field("constraints", "최대 200자")),
                     fieldWithPath("postcode").type(JsonFieldType.STRING)
                         .description("주문자 우편번호")
-                        .attributes(field("constraints", "길이 20 이하")),
+                        .attributes(field("constraints", "최대 20자")),
                     fieldWithPath("productsIds").type(JsonFieldType.ARRAY)
                         .description("주문 상품 ID를 담은 배열")
                 ),
@@ -300,6 +300,4 @@ public class OrderControllerDocsTest extends RestDocsSupport {
                 ))
             );
     }
-
-
 }
