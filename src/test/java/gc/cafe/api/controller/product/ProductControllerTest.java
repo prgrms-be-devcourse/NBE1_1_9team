@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -380,6 +381,39 @@ class ProductControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
             .andExpect(jsonPath("$.message").value("가격은 양수이어야 합니다."))
             .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    @DisplayName("상품 ID를 통해 상품에 대한 상세정보를 조회한다.")
+    @Test
+    void test() throws Exception {
+        //given
+        Long pathValue = 1L;
+
+        given(productService.getProduct(pathValue))
+            .willReturn(ProductResponse.builder()
+                .id(pathValue)
+                .name("스타벅스 원두")
+                .category("원두")
+                .price(50000L)
+                .description("에티오피아산")
+                .build());
+
+        //when
+        //then
+
+        mockMvc.perform(get("/api/v1/products/{id}",pathValue)
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.code").value("200"))
+            .andExpect(jsonPath("$.status").value("OK"))
+            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.data").isMap())
+            .andExpect(jsonPath("$.data.id").isNumber())
+            .andExpect(jsonPath("$.data.name").isString())
+            .andExpect(jsonPath("$.data.category").isString())
+            .andExpect(jsonPath("$.data.price").isNumber())
+            .andExpect(jsonPath("$.data.description").isString());
     }
 
     private static String generateFixedLengthString(int length) {
