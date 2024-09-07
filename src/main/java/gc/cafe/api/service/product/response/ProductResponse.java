@@ -1,5 +1,6 @@
 package gc.cafe.api.service.product.response;
 
+import gc.cafe.domain.product.Product;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,5 +20,15 @@ public class ProductResponse {
         this.category = category;
         this.price = price;
         this.description = description;
+    }
+
+    public static ProductResponse of(Product product) {
+         return ProductResponse.builder()
+            .id(product.getId())
+            .name(product.getName())
+            .category(product.getCategory())
+            .price(product.getPrice())
+            .description(product.getDescription())
+            .build();
     }
 }

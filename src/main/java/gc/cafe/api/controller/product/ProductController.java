@@ -5,6 +5,7 @@ import gc.cafe.api.controller.product.request.ProductCreateRequest;
 import gc.cafe.api.controller.product.request.ProductUpdateRequest;
 import gc.cafe.api.service.product.ProductService;
 import gc.cafe.api.service.product.response.ProductResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/new")
-    public ResponseEntity<ApiResponse<ProductResponse>> createProduct(@RequestBody ProductCreateRequest request) {
+    public ResponseEntity<ApiResponse<ProductResponse>> createProduct(@Valid @RequestBody ProductCreateRequest request) {
         return ResponseEntity.ok(ApiResponse.ok(productService.createProduct(request.toServiceRequest())));
     }
 
@@ -27,7 +28,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(@PathVariable Long id, @RequestBody ProductUpdateRequest request) {
+    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateRequest request) {
         return ResponseEntity.ok(ApiResponse.ok(productService.updateProduct(id, request.toServiceRequest())));
     }
 
