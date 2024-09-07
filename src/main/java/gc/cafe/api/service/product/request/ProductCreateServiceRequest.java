@@ -1,5 +1,6 @@
 package gc.cafe.api.service.product.request;
 
+import gc.cafe.domain.product.Product;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,5 +18,14 @@ public class ProductCreateServiceRequest {
         this.category = category;
         this.price = price;
         this.description = description;
+    }
+
+    public Product toEntity() {
+        return Product.builder()
+            .name(name)
+            .category(category)
+            .price(price)
+            .description(description)
+            .build();
     }
 }

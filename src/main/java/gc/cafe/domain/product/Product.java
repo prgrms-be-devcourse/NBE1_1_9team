@@ -3,6 +3,7 @@ package gc.cafe.domain.product;
 import gc.cafe.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,12 @@ public class Product extends BaseEntity {
 
     @Column(nullable = false, length = 500)
     private String description;
+
+    @Builder
+    private Product(String name, String category, Long price, String description) {
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.description = description;
+    }
 }
