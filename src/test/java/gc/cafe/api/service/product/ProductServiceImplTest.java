@@ -2,6 +2,7 @@ package gc.cafe.api.service.product;
 
 import gc.cafe.IntegrationTestSupport;
 import gc.cafe.api.service.product.request.ProductCreateServiceRequest;
+import gc.cafe.api.service.product.request.ProductUpdateServiceRequest;
 import gc.cafe.api.service.product.response.ProductResponse;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
@@ -126,6 +127,57 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         //when
         //then
         assertThatThrownBy(()->productService.deleteProduct(productId))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("해당 " + productId + "를 가진 상품을 찾을 수 없습니다.");
+    }
+
+    @DisplayName("상품 ID를 통해 해당 상품의 정보를 수정 할 수 있다.")
+    @Test
+    void updateProductByProductId() {
+        //given
+        Long productId = 1L;
+
+        Product product = Product.builder()
+            .name("스타벅스 원두")
+            .category("원두")
+            .price(50000L)
+            .description("에티오피아산")
+            .build();
+
+        productRepository.save(product);
+
+        ProductUpdateServiceRequest request = ProductUpdateServiceRequest.builder()
+            .name("이디야 커피")
+            .category("커피")
+            .price(40000L)
+            .description("국산")
+            .build();
+
+        //when
+        ProductResponse response = productService.updateProduct(productId, request);
+
+        //then
+        assertThat(response)
+            .extracting("id", "name", "category", "price", "description")
+            .containsExactlyInAnyOrder(productId, "이디야 커피", "커피", 40000L, "국산");
+    }
+
+    @DisplayName("상품 ID를 통해 해당 상품의 정보를 수정 할 때 해당 상품이 존재하지 않으면 상품을 삭제 할 수 없다.")
+    @Test
+    void updateProductByProductIdWhenProductIsNull() {
+        //given
+        Long productId = 1L;
+
+        ProductUpdateServiceRequest request = ProductUpdateServiceRequest.builder()
+            .name("이디야 커피")
+            .category("커피")
+            .price(40000L)
+            .description("국산")
+            .build();
+
+        //when
+        //then
+        assertThatThrownBy(()->productService.updateProduct(productId,request))
             .isInstanceOf(NoSuchElementException.class)
             .hasMessage("해당 " + productId + "를 가진 상품을 찾을 수 없습니다.");
     }

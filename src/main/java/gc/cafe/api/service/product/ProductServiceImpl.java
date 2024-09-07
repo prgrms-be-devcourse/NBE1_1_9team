@@ -7,11 +7,13 @@ import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -25,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long deleteProduct(Long id) {
-        Product product = productRepository.findById(id)
+        productRepository.findById(id)
             .orElseThrow(() -> new NoSuchElementException("해당 " + id + "를 가진 상품을 찾을 수 없습니다."));
         productRepository.deleteById(id);
         return id;
@@ -33,9 +35,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse updateProduct(Long id, ProductUpdateServiceRequest request) {
-        return null;
+        Product product = productRepository.findById(id)
+            .orElseThrow(() -> new NoSuchElementException("해당 " + id + "를 가진 상품을 찾을 수 없습니다."));
+         product.updateProduct(request);
+         return ProductResponse.of(product);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ProductResponse getProduct(Long id) {
         Product product = productRepository.findById(id)

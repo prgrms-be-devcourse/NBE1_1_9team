@@ -1,5 +1,6 @@
 package gc.cafe.domain.product;
 
+import gc.cafe.api.service.product.request.ProductUpdateServiceRequest;
 import gc.cafe.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -35,5 +36,12 @@ public class Product extends BaseEntity {
         this.category = category;
         this.price = price;
         this.description = description;
+    }
+
+    public void updateProduct(ProductUpdateServiceRequest request) {
+        this.name = request.getName();
+        this.category = request.getCategory();
+        this.price = request.getPrice();
+        this.description = request.getDescription();
     }
 }
