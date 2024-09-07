@@ -45,12 +45,12 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         assertThat(products).hasSize(1)
             .extracting("id", "name", "category", "price", "description")
             .containsExactlyInAnyOrder(
-                tuple(1L, "스타벅스 원두", "원두", 50000L, "에티오피아산")
+                tuple(products.get(0).getId(), "스타벅스 원두", "원두", 50000L, "에티오피아산")
             );
 
         assertThat(productResponse)
             .extracting("id", "name", "category", "price", "description")
-            .containsExactlyInAnyOrder(1L, "스타벅스 원두", "원두", 50000L, "에티오피아산");
+            .containsExactlyInAnyOrder(products.get(0).getId(), "스타벅스 원두", "원두", 50000L, "에티오피아산");
 
     }
 
@@ -58,8 +58,6 @@ class ProductServiceImplTest extends IntegrationTestSupport {
     @Test
     void getProductByProductId() {
         //given
-        Long productId = 1L;
-
         Product product = Product.builder()
             .name("스타벅스 원두")
             .category("원두")
@@ -67,15 +65,15 @@ class ProductServiceImplTest extends IntegrationTestSupport {
             .description("에티오피아산")
             .build();
 
-        productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
 
         //when
-        ProductResponse productResponse = productService.getProduct(productId);
+        ProductResponse productResponse = productService.getProduct(savedProduct.getId());
 
         //then
         assertThat(productResponse)
             .extracting("id", "name", "category", "price", "description")
-            .containsExactlyInAnyOrder(productId, "스타벅스 원두", "원두", 50000L, "에티오피아산");
+            .containsExactlyInAnyOrder(savedProduct.getId(), "스타벅스 원두", "원두", 50000L, "에티오피아산");
 
     }
 
@@ -97,7 +95,6 @@ class ProductServiceImplTest extends IntegrationTestSupport {
     @Test
     void deleteProductByProductId() {
         //given
-        Long productId = 1L;
 
         Product product = Product.builder()
             .name("스타벅스 원두")
@@ -106,15 +103,15 @@ class ProductServiceImplTest extends IntegrationTestSupport {
             .description("에티오피아산")
             .build();
 
-        productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
 
         //when
-        Long deletedProductId = productService.deleteProduct(productId);
+        Long deletedProductId = productService.deleteProduct(savedProduct.getId());
         List<Product> products = productRepository.findAll();
 
         //then
         assertThat(products).hasSize(0);
-        assertThat(deletedProductId).isEqualTo(productId);
+        assertThat(deletedProductId).isEqualTo(savedProduct.getId());
 
     }
 
@@ -135,8 +132,6 @@ class ProductServiceImplTest extends IntegrationTestSupport {
     @Test
     void updateProductByProductId() {
         //given
-        Long productId = 1L;
-
         Product product = Product.builder()
             .name("스타벅스 원두")
             .category("원두")
@@ -144,7 +139,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
             .description("에티오피아산")
             .build();
 
-        productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
 
         ProductUpdateServiceRequest request = ProductUpdateServiceRequest.builder()
             .name("이디야 커피")
@@ -154,12 +149,12 @@ class ProductServiceImplTest extends IntegrationTestSupport {
             .build();
 
         //when
-        ProductResponse response = productService.updateProduct(productId, request);
+        ProductResponse response = productService.updateProduct(savedProduct.getId(), request);
 
         //then
         assertThat(response)
             .extracting("id", "name", "category", "price", "description")
-            .containsExactlyInAnyOrder(productId, "이디야 커피", "커피", 40000L, "국산");
+            .containsExactlyInAnyOrder(savedProduct.getId(), "이디야 커피", "커피", 40000L, "국산");
     }
 
     @DisplayName("상품 ID를 통해 해당 상품의 정보를 수정 할 때 해당 상품이 존재하지 않으면 상품을 삭제 할 수 없다.")
