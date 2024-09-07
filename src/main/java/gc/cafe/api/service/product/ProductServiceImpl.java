@@ -25,7 +25,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long deleteProduct(Long id) {
-        return 0L;
+        Product product = productRepository.findById(id)
+            .orElseThrow(() -> new NoSuchElementException("해당 " + id + "를 가진 상품을 찾을 수 없습니다."));
+        productRepository.deleteById(id);
+        return id;
     }
 
     @Override

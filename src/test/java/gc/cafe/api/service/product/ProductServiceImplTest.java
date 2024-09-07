@@ -43,13 +43,13 @@ class ProductServiceImplTest extends IntegrationTestSupport {
 
         //then
         assertThat(productResponse)
-            .extracting("id","name","category","price","description")
-            .containsExactlyInAnyOrder(1L,"스타벅스 원두","원두",50000L,"에티오피아산");
+            .extracting("id", "name", "category", "price", "description")
+            .containsExactlyInAnyOrder(1L, "스타벅스 원두", "원두", 50000L, "에티오피아산");
 
         assertThat(products).hasSize(1)
-            .extracting("id","name","category","price","description")
+            .extracting("id", "name", "category", "price", "description")
             .containsExactlyInAnyOrder(
-                tuple(1L,"스타벅스 원두","원두",50000L,"에티오피아산")
+                tuple(1L, "스타벅스 원두", "원두", 50000L, "에티오피아산")
             );
     }
 
@@ -73,8 +73,8 @@ class ProductServiceImplTest extends IntegrationTestSupport {
 
         //then
         assertThat(productResponse)
-            .extracting("id","name","category","price","description")
-            .containsExactlyInAnyOrder(1L,"스타벅스 원두","원두",50000L,"에티오피아산");
+            .extracting("id", "name", "category", "price", "description")
+            .containsExactlyInAnyOrder(1L, "스타벅스 원두", "원두", 50000L, "에티오피아산");
 
     }
 
@@ -86,10 +86,48 @@ class ProductServiceImplTest extends IntegrationTestSupport {
 
         //when
         //then
-        assertThatThrownBy(()->productService.getProduct(productId))
+        assertThatThrownBy(() -> productService.getProduct(productId))
             .isInstanceOf(NoSuchElementException.class)
             .hasMessage("해당 " + productId + "를 가진 상품을 찾을 수 없습니다.");
 
+    }
+
+    @DisplayName("상품 ID를 통해 해당 상품을 삭제 할 수 있다.")
+    @Test
+    void deleteProductByProductId() {
+        //given
+        Long productId = 1L;
+
+        Product product = Product.builder()
+            .name("스타벅스 원두")
+            .category("원두")
+            .price(50000L)
+            .description("에티오피아산")
+            .build();
+
+        productRepository.save(product);
+
+        //when
+        Long deletedProductId = productService.deleteProduct(productId);
+        List<Product> products = productRepository.findAll();
+
+        //then
+        assertThat(products).hasSize(0);
+        assertThat(deletedProductId).isEqualTo(productId);
+
+    }
+
+    @DisplayName("상품 ID를 통해 해당 상품을 삭제 할 때 해당 상품이 존재하지 않으면 상품을 삭제 할 수 없다.")
+    @Test
+    void deleteProductByProductIdWhenProductIsNull() {
+        //given
+        Long productId = 1L;
+
+        //when
+        //then
+        assertThatThrownBy(()->productService.deleteProduct(productId))
+            .isInstanceOf(NoSuchElementException.class)
+            .hasMessage("해당 " + productId + "를 가진 상품을 찾을 수 없습니다.");
     }
 
 }

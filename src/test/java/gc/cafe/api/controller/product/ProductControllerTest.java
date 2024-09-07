@@ -4,6 +4,7 @@ import gc.cafe.ControllerTestSupport;
 import gc.cafe.api.controller.product.request.ProductCreateRequest;
 import gc.cafe.api.service.product.request.ProductCreateServiceRequest;
 import gc.cafe.api.service.product.response.ProductResponse;
+import gc.cafe.domain.product.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -385,7 +387,7 @@ class ProductControllerTest extends ControllerTestSupport {
 
     @DisplayName("상품 ID를 통해 상품에 대한 상세정보를 조회한다.")
     @Test
-    void test() throws Exception {
+    void getProductByProductId() throws Exception {
         //given
         Long pathValue = 1L;
 
@@ -401,7 +403,7 @@ class ProductControllerTest extends ControllerTestSupport {
         //when
         //then
 
-        mockMvc.perform(get("/api/v1/products/{id}",pathValue)
+        mockMvc.perform(get("/api/v1/products/{id}", pathValue)
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print())
             .andExpect(status().isOk())
@@ -414,6 +416,27 @@ class ProductControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.data.category").isString())
             .andExpect(jsonPath("$.data.price").isNumber())
             .andExpect(jsonPath("$.data.description").isString());
+    }
+
+    @DisplayName("상품 ID를 통해 해당 상품을 삭제한다.")
+    @Test
+    void deleteProductByProductId() throws Exception {
+        //given
+        Long id = 1L;
+
+        given(productService.deleteProduct(id))
+            .willReturn(id);
+
+        //when
+        //then
+        mockMvc.perform(delete("/api/v1/products/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON))
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.code").value("200"))
+            .andExpect(jsonPath("$.status").value("OK"))
+            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.data").isNumber());
     }
 
     private static String generateFixedLengthString(int length) {
