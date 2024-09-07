@@ -6,7 +6,6 @@ import gc.cafe.api.controller.product.request.ProductUpdateRequest;
 import gc.cafe.api.service.product.request.ProductCreateServiceRequest;
 import gc.cafe.api.service.product.request.ProductUpdateServiceRequest;
 import gc.cafe.api.service.product.response.ProductResponse;
-import gc.cafe.domain.product.Product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -453,7 +452,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .description("국산")
             .build();
 
-        given(productService.updateProduct(eq(productId),any(ProductUpdateServiceRequest.class)))
+        given(productService.updateProduct(eq(productId), any(ProductUpdateServiceRequest.class)))
             .willReturn(ProductResponse.builder()
                 .id(productId)
                 .name("이디야 커피")
@@ -463,7 +462,7 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -492,7 +491,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -517,7 +516,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -541,7 +540,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .description("국산")
             .build();
 
-        given(productService.updateProduct(eq(productId),any(ProductUpdateServiceRequest.class)))
+        given(productService.updateProduct(eq(productId), any(ProductUpdateServiceRequest.class)))
             .willReturn(ProductResponse.builder()
                 .id(productId)
                 .name(generateFixedLengthString(20))
@@ -551,7 +550,7 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -580,7 +579,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -604,7 +603,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .description("국산")
             .build();
 
-        given(productService.updateProduct(eq(productId),any(ProductUpdateServiceRequest.class)))
+        given(productService.updateProduct(eq(productId), any(ProductUpdateServiceRequest.class)))
             .willReturn(ProductResponse.builder()
                 .id(productId)
                 .name("이디야 커피")
@@ -614,7 +613,7 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -644,7 +643,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -668,7 +667,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -692,7 +691,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .description(generateFixedLengthString(500))
             .build();
 
-        given(productService.updateProduct(eq(productId),any(ProductUpdateServiceRequest.class)))
+        given(productService.updateProduct(eq(productId), any(ProductUpdateServiceRequest.class)))
             .willReturn(ProductResponse.builder()
                 .id(productId)
                 .name("이디야 커피")
@@ -702,7 +701,7 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -732,7 +731,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -756,7 +755,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -780,7 +779,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .description("국산")
             .build();
 
-        given(productService.updateProduct(eq(productId),any(ProductUpdateServiceRequest.class)))
+        given(productService.updateProduct(eq(productId), any(ProductUpdateServiceRequest.class)))
             .willReturn(ProductResponse.builder()
                 .id(productId)
                 .name("이디야 커피")
@@ -790,7 +789,7 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -820,7 +819,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                put("/api/v1/products/{id}",productId)
+                put("/api/v1/products/{id}", productId)
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )

@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 class ProductServiceImplTest extends IntegrationTestSupport {
@@ -43,15 +42,16 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         List<Product> products = productRepository.findAll();
 
         //then
-        assertThat(productResponse)
-            .extracting("id", "name", "category", "price", "description")
-            .containsExactlyInAnyOrder(1L, "스타벅스 원두", "원두", 50000L, "에티오피아산");
-
         assertThat(products).hasSize(1)
             .extracting("id", "name", "category", "price", "description")
             .containsExactlyInAnyOrder(
                 tuple(1L, "스타벅스 원두", "원두", 50000L, "에티오피아산")
             );
+
+        assertThat(productResponse)
+            .extracting("id", "name", "category", "price", "description")
+            .containsExactlyInAnyOrder(1L, "스타벅스 원두", "원두", 50000L, "에티오피아산");
+
     }
 
     @DisplayName("상품 ID를 통해 상품에 대한 상세정보를 조회한다.")
@@ -75,7 +75,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         //then
         assertThat(productResponse)
             .extracting("id", "name", "category", "price", "description")
-            .containsExactlyInAnyOrder(1L, "스타벅스 원두", "원두", 50000L, "에티오피아산");
+            .containsExactlyInAnyOrder(productId, "스타벅스 원두", "원두", 50000L, "에티오피아산");
 
     }
 
@@ -89,7 +89,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         //then
         assertThatThrownBy(() -> productService.getProduct(productId))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("해당 " + productId + "를 가진 상품을 찾을 수 없습니다.");
+            .hasMessage("해당 id : " + productId + "를 가진 상품을 찾을 수 없습니다.");
 
     }
 
@@ -128,7 +128,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         //then
         assertThatThrownBy(()->productService.deleteProduct(productId))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("해당 " + productId + "를 가진 상품을 찾을 수 없습니다.");
+            .hasMessage("해당 id : " + productId + "를 가진 상품을 찾을 수 없습니다.");
     }
 
     @DisplayName("상품 ID를 통해 해당 상품의 정보를 수정 할 수 있다.")
@@ -179,7 +179,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         //then
         assertThatThrownBy(()->productService.updateProduct(productId,request))
             .isInstanceOf(NoSuchElementException.class)
-            .hasMessage("해당 " + productId + "를 가진 상품을 찾을 수 없습니다.");
+            .hasMessage("해당 id : " + productId + "를 가진 상품을 찾을 수 없습니다.");
     }
 
 }
