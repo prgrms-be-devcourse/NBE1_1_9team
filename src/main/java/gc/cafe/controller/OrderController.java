@@ -19,24 +19,23 @@ public class OrderController {
 
     @PostMapping("/create")
     public ResponseEntity<Response<Long>> createOrder(@RequestBody OrderRequestDto requestDto) {
-        Long orderId = orderService.createOrder(requestDto);
+        Long orderId = orderService.create(requestDto);
         return ResponseEntity.ok().body(Response.success(orderId));
     }
 
-    @GetMapping("read")
+    @GetMapping("/read")
     public ResponseEntity<Response<OrderResponseDto>> readOrder(@RequestParam Long orderId){
-        Order order = orderService.readOrder(orderId);
+        Order order = orderService.findOrderById(orderId);
         return ResponseEntity.ok().body(Response.success(new OrderResponseDto(order)));
     }
 
-    @GetMapping("find")
+    @GetMapping("/search")
     public ResponseEntity<Response<List<OrderResponseDto>>> readByEmail(@RequestParam String email){
-        List<OrderResponseDto> responseDtos = orderService.readByEmail(email)
+        List<OrderResponseDto> responseDtos = orderService.findOrdersByEmail(email)
                 .stream()
                 .map(OrderResponseDto::new)
                 .toList();
         return ResponseEntity.ok().body(Response.success(responseDtos));
     }
-
 
 }

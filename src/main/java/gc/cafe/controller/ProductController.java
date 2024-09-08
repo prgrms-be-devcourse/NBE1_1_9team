@@ -8,6 +8,7 @@ import gc.cafe.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -33,7 +34,7 @@ public class ProductController {
 
     @GetMapping("/read")
     public ResponseEntity<Response<ProductResponseDto>> read(@RequestParam Long productId) {
-        Product product = productService.read(productId);
+        Product product = productService.findProductById(productId);
         ProductResponseDto responseDto = new ProductResponseDto(product);
         return ResponseEntity.ok().body(Response.success(responseDto));
     }

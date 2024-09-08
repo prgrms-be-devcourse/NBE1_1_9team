@@ -22,7 +22,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public Long createOrder(OrderRequestDto requestDto) {
+    public Long create(OrderRequestDto requestDto) {
         Order order = requestDto.toEntity();
         requestDto.getOrderItems()
                 .forEach(itemRequestDto -> {
@@ -35,12 +35,12 @@ public class OrderService {
         return orderRepository.save(order).getOrderId();
     }
 
-    public Order readOrder(Long orderId) {
+    public Order findOrderById(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_ORDER));
     }
 
-    public List<Order> readByEmail(String email) {
+    public List<Order> findOrdersByEmail(String email) {
         return orderRepository.findByEmail(email);
     }
     @Scheduled(cron = "0 0 14 * * ?")

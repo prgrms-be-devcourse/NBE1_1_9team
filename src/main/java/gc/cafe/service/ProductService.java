@@ -22,7 +22,7 @@ public class ProductService {
         return productRepository.save(product).getProductId();
     }
 
-    public Product read(Long productId) {
+    public Product findProductById(Long productId) {
         return productRepository.findByProductId(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
     }
