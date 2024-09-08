@@ -42,25 +42,13 @@ public class Order extends BaseEntity {
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     @Builder
-    private Order(String email, String address, String postcode, OrderStatus orderStatus, List<Product> products, Map<Long,Integer> orderProducts) {
+    private Order(String email, String address, String postcode, List<Product> products, Map<Long,Integer> orderProducts) {
         this.email = email;
         this.address = address;
         this.postcode = postcode;
-        this.orderStatus = orderStatus;
+        this.orderStatus = OrderStatus.ORDERED;
         this.orderProducts = products.stream()
             .map(product -> new OrderProduct(this, product, orderProducts.get(product.getId())))
             .collect(Collectors.toList());
-    }
-
-
-    public static Order create(OrderCreateServiceRequest request, List<Product> products) {
-        return Order.builder()
-            .email(request.getEmail())
-            .address(request.getAddress())
-            .postcode(request.getPostcode())
-            .orderStatus(OrderStatus.ORDERED)
-            .products(products)
-            .orderProducts(request.getOrderProducts())
-            .build();
     }
 }
