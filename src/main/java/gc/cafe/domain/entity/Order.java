@@ -9,9 +9,7 @@ import java.util.List;
 @Entity
 @Getter
 @Table(name = "orders")
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Order extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +23,22 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 50)
     private OrderStatus orderStatus;
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems = new ArrayList<>();
 
+    @Builder
+    public Order(String email,
+                 String address,
+                 String postcode,
+                 OrderStatus orderStatus) {
+        this.email = email;
+        this.address = address;
+        this.postcode = postcode;
+        this.orderStatus = orderStatus;
+    }
+
+    public void addOrderItem(OrderItem orderItem){
+        this.orderItems.add(orderItem);
+        orderItem.assignOrder(this);
+    }
 }
