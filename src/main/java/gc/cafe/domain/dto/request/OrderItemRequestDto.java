@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class OrderItemRequestDto {
     private Long productId;
-    private String category;
+    private Category category;
     private Long price;
     private int quantity;
 
     public OrderItem toEntity() {
         return OrderItem.builder()
-                .category(Category.valueOf(category.toUpperCase()))
+                .category(category)
                 .price(price)
                 .quantity(quantity)
                 .build();

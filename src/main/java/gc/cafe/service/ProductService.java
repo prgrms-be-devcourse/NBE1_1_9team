@@ -9,6 +9,8 @@ import gc.cafe.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class ProductService {
         return productRepository.save(product).getProductId();
     }
 
-    public Product findById(Long productId) {
+    public Product read(Long productId) {
         return productRepository.findByProductId(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
     }
@@ -42,5 +44,9 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
         productRepository.delete(product);
+    }
+
+    public List<Product> list() {
+        return productRepository.findAll();
     }
 }

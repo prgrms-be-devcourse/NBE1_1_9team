@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
     NOT_FOUND_PRODUCT(HttpStatus.NOT_FOUND, "Product is not found"),
+    NOT_FOUND_ORDER(HttpStatus.NOT_FOUND,"Order is not found")
     ;
     private final HttpStatus httpStatus;
     private final String message;

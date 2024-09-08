@@ -1,7 +1,6 @@
 package gc.cafe.domain.dto.request;
 
 import gc.cafe.domain.entity.Order;
-import gc.cafe.domain.entity.OrderItem;
 import gc.cafe.domain.entity.OrderStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
