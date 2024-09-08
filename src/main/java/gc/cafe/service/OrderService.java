@@ -10,6 +10,7 @@ import gc.cafe.repository.OrderRepository;
 import gc.cafe.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,5 +42,10 @@ public class OrderService {
 
     public List<Order> readByEmail(String email) {
         return orderRepository.findByEmail(email);
+    }
+    @Scheduled(cron = "0 0 14 * * ?")
+    @Transactional
+    public void updateOrderStatus(){
+        int updatedRows = orderRepository.bulkUpdateOrderStatus();
     }
 }
