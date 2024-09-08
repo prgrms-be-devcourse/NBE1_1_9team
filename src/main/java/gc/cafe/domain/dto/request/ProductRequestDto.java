@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductRequestDto {
     private String productName;
-    private String category;
+    private Category category;
     private Long price;
     private String description;
 
     public Product toEntity() {
         return Product.builder()
                 .productName(productName)
-                .category(Category.valueOf(category))
+                .category(category)
                 .price(price)
                 .description(description)
                 .build();

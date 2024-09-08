@@ -40,4 +40,14 @@ public class Product extends BaseEntity{
         this.orderItems.add(orderItem);
         orderItem.assignProduct(this);
     }
+
+    public void update(String productName,
+                       Category category,
+                       Long price,
+                       String description){
+        this.productName = productName;
+        this.category = category;
+        this.price = price;
+        this.description = description;
+    }
 }

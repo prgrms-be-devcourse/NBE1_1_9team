@@ -28,6 +28,16 @@ public class ProductController {
         return ResponseEntity.ok().body(Response.success(responseDto));
     }
 
-    @PutMapping("")
+    @PutMapping("/update")
+    public ResponseEntity<Response<Long>> update(@RequestParam Long productId,
+                                                               @RequestBody ProductRequestDto requestDto){
+        Long updateId = productService.update(productId, requestDto);
+        return ResponseEntity.ok().body(Response.success(updateId));
+    }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> delete(@RequestParam Long productId){
+        productService.delete(productId);
+        return ResponseEntity.noContent().build();
+    }
 }
