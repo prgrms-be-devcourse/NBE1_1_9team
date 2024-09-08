@@ -2,7 +2,7 @@ package gc.cafe.docs.order;
 
 import gc.cafe.api.controller.order.OrderController;
 import gc.cafe.api.controller.order.request.OrderCreateRequest;
-import gc.cafe.api.controller.order.request.OrdersByEmailRequest;
+import gc.cafe.api.controller.order.request.OrderProductQuantity;
 import gc.cafe.api.service.order.OrderService;
 import gc.cafe.api.service.order.request.OrderCreateServiceRequest;
 import gc.cafe.api.service.order.response.OrderDetailResponse;
@@ -47,7 +47,18 @@ public class OrderControllerDocsTest extends RestDocsSupport {
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .productsIds(List.of(1L, 2L))
+            .orderProductsQuantity(
+                List.of(
+                    OrderProductQuantity.builder()
+                        .productId(1L)
+                        .quantity(1)
+                        .build()
+                    ,
+                    OrderProductQuantity.builder()
+                        .productId(2L)
+                        .quantity(2)
+                        .build()
+                ))
             .build();
 
         given(orderService.createOrder(any(OrderCreateServiceRequest.class)))
@@ -95,8 +106,12 @@ public class OrderControllerDocsTest extends RestDocsSupport {
                     fieldWithPath("postcode").type(JsonFieldType.STRING)
                         .description("주문자 우편번호")
                         .attributes(field("constraints", "최대 20자")),
-                    fieldWithPath("productsIds").type(JsonFieldType.ARRAY)
-                        .description("주문 상품 ID를 담은 배열")
+                    fieldWithPath("orderProductsQuantity").type(JsonFieldType.ARRAY)
+                        .description("주문 상품 목록"),
+                    fieldWithPath("orderProductsQuantity[].productId").type(JsonFieldType.NUMBER)
+                        .description("상품 ID"),
+                    fieldWithPath("orderProductsQuantity[].quantity").type(JsonFieldType.NUMBER)
+                        .description("상품 수량")
                 ),
                 responseFields(
                     fieldWithPath("code").type(JsonFieldType.NUMBER)

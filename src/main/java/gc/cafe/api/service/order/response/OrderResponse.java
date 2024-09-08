@@ -1,5 +1,6 @@
 package gc.cafe.api.service.order.response;
 
+import gc.cafe.domain.order.Order;
 import gc.cafe.domain.order.OrderStatus;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +25,22 @@ public class OrderResponse {
         this.postcode = postcode;
         this.orderStatus = orderStatus;
         this.orderDetails = orderDetails;
+    }
+
+    public static OrderResponse of(Order order) {
+        return OrderResponse.builder()
+            .id(order.getId())
+            .email(order.getEmail())
+            .address(order.getAddress())
+            .postcode(order.getPostcode())
+            .orderStatus(order.getOrderStatus())
+            .orderDetails(order.getOrderProducts().stream()
+                .map(orderProduct -> OrderDetailResponse.builder()
+                    .category(orderProduct.getProduct().getCategory())
+                    .price(orderProduct.getProduct().getPrice())
+                    .quantity(orderProduct.getQuantity())
+                    .build())
+                .toList())
+            .build();
     }
 }

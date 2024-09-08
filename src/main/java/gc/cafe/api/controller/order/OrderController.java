@@ -4,6 +4,7 @@ import gc.cafe.api.ApiResponse;
 import gc.cafe.api.controller.order.request.OrderCreateRequest;
 import gc.cafe.api.service.order.OrderService;
 import gc.cafe.api.service.order.response.OrderResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/new")
-    public ResponseEntity<ApiResponse<OrderResponse>> createOrder(@RequestBody OrderCreateRequest request) {
+    public ResponseEntity<ApiResponse<OrderResponse>> createOrder(@Valid @RequestBody OrderCreateRequest request) {
         return ResponseEntity.ok(ApiResponse.ok(orderService.createOrder(request.toServiceRequest())));
     }
 

@@ -35,4 +35,11 @@ public class OrderProduct extends BaseEntity {
     @Column(nullable = false)
     private int quantity;
 
+    public OrderProduct(Order order, Product product, int quantity) {
+        this.order = order;
+        this.product = product;
+        this.category = product.getCategory();
+        this.price = product.getPrice();
+        this.quantity = quantity;
+    }
 }

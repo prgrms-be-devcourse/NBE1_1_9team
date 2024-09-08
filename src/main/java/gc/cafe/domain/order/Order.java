@@ -1,14 +1,19 @@
 package gc.cafe.domain.order;
 
+import gc.cafe.api.service.order.request.OrderCreateServiceRequest;
 import gc.cafe.domain.BaseEntity;
 import gc.cafe.domain.orderproduct.OrderProduct;
+import gc.cafe.domain.product.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,4 +41,26 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
+    @Builder
+    private Order(String email, String address, String postcode, OrderStatus orderStatus, List<Product> products, Map<Long,Integer> orderProducts) {
+        this.email = email;
+        this.address = address;
+        this.postcode = postcode;
+        this.orderStatus = orderStatus;
+        this.orderProducts = products.stream()
+            .map(product -> new OrderProduct(this, product, orderProducts.get(product.getId())))
+            .collect(Collectors.toList());
+    }
+
+
+    public static Order create(OrderCreateServiceRequest request, List<Product> products) {
+        return Order.builder()
+            .email(request.getEmail())
+            .address(request.getAddress())
+            .postcode(request.getPostcode())
+            .orderStatus(OrderStatus.ORDERED)
+            .products(products)
+            .orderProducts(request.getOrderProducts())
+            .build();
+    }
 }
