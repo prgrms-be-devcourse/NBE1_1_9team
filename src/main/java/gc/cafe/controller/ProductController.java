@@ -34,7 +34,7 @@ public class ProductController {
 
     @GetMapping("/read")
     public ResponseEntity<Response<ProductResponseDto>> readProduct(@RequestParam Long productId) {
-        Product product = productService.findProductById(productId);
+        Product product = productService.findById(productId);
         ProductResponseDto responseDto = new ProductResponseDto(product);
         return ResponseEntity.ok().body(Response.success(responseDto));
     }

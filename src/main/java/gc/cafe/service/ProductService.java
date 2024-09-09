@@ -22,8 +22,8 @@ public class ProductService {
         return productRepository.save(product).getProductId();
     }
 
-    public Product findProductById(Long productId) {
-        return productRepository.findByProductId(productId)
+    public Product findById(Long productId) {
+        return productRepository.findById(productId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
     }
 

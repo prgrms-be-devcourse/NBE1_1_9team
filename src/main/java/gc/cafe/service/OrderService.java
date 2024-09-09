@@ -29,7 +29,7 @@ public class OrderService {
         Order order = requestDto.toEntity();
         requestDto.getOrderItems()
                 .forEach(itemRequestDto -> {
-                    Product product = productRepository.findByProductId(itemRequestDto.getProductId())
+                    Product product = productRepository.findById(itemRequestDto.getProductId())
                             .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
                     OrderItem orderItem = itemRequestDto.toEntity();
                     product.addOrderItem(orderItem);
@@ -55,7 +55,7 @@ public class OrderService {
         orderItemRepository.deleteByOrder(order);
         requestDto.getOrderItems()
                 .forEach(itemRequestDto -> {
-                    Product product = productRepository.findByProductId(itemRequestDto.getProductId())
+                    Product product = productRepository.findById(itemRequestDto.getProductId())
                             .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
                     OrderItem orderItem = itemRequestDto.toEntity();
                     product.addOrderItem(orderItem);
