@@ -11,10 +11,9 @@ public interface ProductService {
     //상품 전체조회
     //상품 수정
     //상품 삭제
-    public byte[] registerProduct(Products products);   //PK(UUID) 반환
-    public Optional<Products> findProduct(byte[] productId);
-    public List<Products> findAllProducts();
-    public byte[] updateProduct(byte[] beforeProductId, Products newProducts);
-    public void removeProduct(byte[] productsId);
-
+    byte[] registerProduct(Products products);   //PK(UUID) 반환
+    Optional<Products> findProduct(byte[] productId);
+    List<Products> findAllProducts();
+    byte[] updateProduct(byte[] beforeProductId, Products newProducts);
+    void removeProduct(byte[] productsId);
 }

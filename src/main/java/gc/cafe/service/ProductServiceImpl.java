@@ -2,19 +2,21 @@ package gc.cafe.service;
 
 import gc.cafe.entity.Products;
 import gc.cafe.repository.ProductsRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService{
 
     private final ProductsRepository productsRepository;
     @Override
+    @Transactional
     public byte[] registerProduct(Products products) {
         Products savedProduct = productsRepository.save(products);
         return savedProduct.getProductId();
@@ -39,6 +41,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    @Transactional
     public void removeProduct(byte[] productsId) {
         productsRepository.deleteById(productsId);
     }

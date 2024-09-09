@@ -14,11 +14,11 @@ public interface OrderService {
     //주문 수정
     //주문 취소
     //주문 처리 _2시마다 한 이메일에 대한 모든 주문 발송처리
-    public Orders generateOrderByDTO(OrderPostRequestDTO dto);
-    public byte[] registerOrder(Orders order);
-    public List<Orders> findOrdersByEmail(String email);
-    public Optional<Orders> findOrder(byte[] orderId);
-    public byte[] updateOrder(byte[] beforeOrderId, Orders newOrder);
-    public void cancelOrder(byte[] orderId);
-    public void processOrders();
+    Orders generateOrderByDTO(OrderPostRequestDTO dto);
+    byte[] registerOrder(Orders order);
+    List<Orders> findOrdersByEmail(String email);
+    Optional<Orders> findOrder(byte[] orderId);
+    byte[] updateOrder(byte[] beforeOrderId, Orders newOrder);
+    void cancelOrder(byte[] orderId);
+    void processOrders();
 }

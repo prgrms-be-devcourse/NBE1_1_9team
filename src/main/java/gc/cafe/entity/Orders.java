@@ -57,6 +57,7 @@ public class Orders {
         this.orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
+
     public Orders setTo(Orders newOrder) {
         this.address = newOrder.address;
         this.postcode = newOrder.postcode;

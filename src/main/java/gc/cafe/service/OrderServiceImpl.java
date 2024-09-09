@@ -7,15 +7,16 @@ import gc.cafe.entity.OrderItems;
 import gc.cafe.entity.Orders;
 import gc.cafe.entity.Products;
 import gc.cafe.repository.OrdersRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrdersRepository ordersRepository;
@@ -56,6 +57,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public byte[] registerOrder(Orders order) {
         Orders savedOrder = ordersRepository.save(order);
         return savedOrder.getOrderId();
@@ -80,6 +82,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void cancelOrder(byte[] orderId) {
         ordersRepository.deleteById(orderId);
     }
