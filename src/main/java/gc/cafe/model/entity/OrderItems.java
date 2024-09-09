@@ -3,6 +3,7 @@ package gc.cafe.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -38,6 +39,7 @@ public class OrderItems {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 }

@@ -1,11 +1,13 @@
 package gc.cafe.model.entity;
 
 
-import gc.cafe.model.dto.ProductDto;
+import gc.cafe.controller.dto.req.ProductReqDto;
+import gc.cafe.controller.dto.res.ProductResDto;
 import gc.cafe.util.uuid.UuidUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,14 +39,15 @@ public class Products {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "products")
     List<OrderItems> orderItemsList = new ArrayList<>();
 
-    public static ProductDto toDto(Products p) {
-        return ProductDto.builder()
+    public static ProductResDto toResDto(Products p) {
+        return ProductResDto.builder()
                 .id(UuidUtils.convertBytesToString(p.getId()))
                 .name(p.getName())
                 .category(p.getCategory())

@@ -1,14 +1,17 @@
 package gc.cafe.model.entity;
 
 
+import gc.cafe.controller.dto.req.OrderReqDto;
+import gc.cafe.controller.dto.res.OrderResDto;
+import gc.cafe.util.uuid.UuidUtils;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity @Builder
 @Getter @ToString
@@ -35,9 +38,10 @@ public class Orders {
     private OrderStatus status;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
