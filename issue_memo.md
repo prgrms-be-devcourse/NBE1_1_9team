@@ -73,7 +73,6 @@ ex)
    엔터티보호를 위해 visibility 최소화   <br>
    근데 private쓰면 엔터티의 프록시객체를 생성못해서 protected로
 
-https://velog.io/@naminhyeok/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98-%EC%A0%9C%EB%8C%80%EB%A1%9C-%EC%95%8C%EA%B3%A0-%EC%82%AC%EC%9A%A9%ED%96%88%EC%9D%84%EA%B9%8C-3-Builder-NoArgsConstructor
 ***
 ### @CreationTimestamp
 @CreationTimestamp달았을때, 애플리케이션 실행했을땐 db에 잘 생성되어 들어가는데 <br>
