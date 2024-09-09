@@ -7,6 +7,7 @@ import gc.cafe.entity.OrderItems;
 import gc.cafe.entity.Orders;
 import gc.cafe.entity.Products;
 import gc.cafe.repository.OrdersRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public byte[] updateOrder(byte[] beforeOrderId, Orders newOrder) {
         Orders foundOrder = ordersRepository.findById(beforeOrderId).get();
         Orders updatedOrder = foundOrder.setTo(newOrder);
