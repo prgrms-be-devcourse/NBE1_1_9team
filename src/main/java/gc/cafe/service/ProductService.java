@@ -1,7 +1,6 @@
 package gc.cafe.service;
 
 import gc.cafe.domain.dto.request.ProductRequestDto;
-import gc.cafe.domain.entity.Category;
 import gc.cafe.domain.entity.Product;
 import gc.cafe.exception.AppException;
 import gc.cafe.exception.ErrorCode;
@@ -18,6 +17,7 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository productRepository;
 
+    @Transactional
     public Long save(ProductRequestDto requestDto) {
         Product product = requestDto.toEntity();
         return productRepository.save(product).getProductId();
@@ -32,6 +32,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    @Transactional
     public Long update(Long productId, ProductRequestDto requestDto) {
         Product product = findById(productId);
         product.update(
@@ -41,8 +42,8 @@ public class ProductService {
                 requestDto.getDescription()
         );
         return productRepository.save(product).getProductId();
-
     }
+
     @Transactional
     public void delete(Long productId) {
         Product product = findById(productId);
