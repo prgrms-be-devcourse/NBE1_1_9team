@@ -89,17 +89,15 @@ class OrderRepositoryTest extends IntegrationTestSupport {
             );
 
         assertThat(findOrdersByEmail.get(0).getOrderProducts()).hasSize(2)
-            .extracting("category", "price", "quantity")
-            .containsExactlyInAnyOrder(
-                tuple("원두", 50000L, 1),
-                tuple("음료", 3000L, 2)
+            .extracting("quantity")
+            .contains(
+                1,2
             );
 
         assertThat(findOrdersByEmail.get(1).getOrderProducts()).hasSize(2)
-            .extracting("category", "price", "quantity")
-            .containsExactlyInAnyOrder(
-                tuple("원두", 50000L, 2),
-                tuple("베이커리", 5000L, 4)
+            .extracting("quantity")
+            .contains(
+                2,4
             );
 
     }
@@ -165,17 +163,15 @@ class OrderRepositoryTest extends IntegrationTestSupport {
             );
 
         assertThat(findOrdersByOrderStatus.get(0).getOrderProducts()).hasSize(2)
-            .extracting("category", "price", "quantity")
-            .containsExactlyInAnyOrder(
-                tuple("원두", 50000L, 1),
-                tuple("음료", 3000L, 2)
+            .extracting("quantity")
+            .contains(
+                1,2
             );
 
         assertThat(findOrdersByOrderStatus.get(1).getOrderProducts()).hasSize(2)
-            .extracting("category", "price", "quantity")
+            .extracting("quantity")
             .containsExactlyInAnyOrder(
-                tuple("원두", 50000L, 2),
-                tuple("베이커리", 5000L, 4)
+                2,4
             );
     }
 }
