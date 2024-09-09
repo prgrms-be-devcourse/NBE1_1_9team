@@ -30,13 +30,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse createOrder(OrderCreateServiceRequest request) {
-        Set<Long> productIds = request.getOrderProducts().keySet();
+        Set<Long> productIds = request.getOrderProductQuantity().keySet();
         List<Product> products = productRepository.findAllById(productIds);
         Order order = Order.builder()
             .email(request.getEmail())
             .address(request.getAddress())
             .postcode(request.getPostcode())
-            .orderProducts(request.getOrderProducts())
+            .orderProducts(request.getOrderProductQuantity())
             .products(products)
             .build();
         Order savedOrder = orderRepository.save(order);
