@@ -13,7 +13,7 @@ public class UuidUtils {
     private static final int BYTES_SIZE = 16;
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
-    public static byte[] generateId() {
+    public static byte[] generateEntityId() {
         UUID newUuid = Generators.timeBasedGenerator().generate();
         String[] splitUuid = newUuid.toString().split("-");
         String custom = splitUuid[3] + splitUuid[2] + splitUuid[1] + splitUuid[0] + splitUuid[4];
