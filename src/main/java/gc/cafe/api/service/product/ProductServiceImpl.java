@@ -6,6 +6,7 @@ import gc.cafe.api.service.product.response.ProductResponse;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,25 +25,27 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Long deleteProduct(Long id) {
-        productRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 id : " + id + "를 가진 상품을 찾을 수 없습니다."));
-        productRepository.deleteById(id);
+        Product product = getProductById(id);
+        productRepository.delete(product);
         return id;
     }
 
     @Override
     public ProductResponse updateProduct(Long id, ProductUpdateServiceRequest request) {
-        Product product = productRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 id : " + id + "를 가진 상품을 찾을 수 없습니다."));
-         product.updateProduct(request);
-         return ProductResponse.of(product);
+        Product product = getProductById(id);
+        product.updateProduct(request);
+        return ProductResponse.of(product);
     }
 
     @Transactional(readOnly = true)
     @Override
     public ProductResponse getProduct(Long id) {
-        Product product = productRepository.findById(id)
-            .orElseThrow(()->new IllegalArgumentException("해당 id : " + id + "를 가진 상품을 찾을 수 없습니다."));
+        Product product = getProductById(id);
         return ProductResponse.of(product);
+    }
+
+    private Product getProductById(Long id) {
+        return productRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 id : " + id + "를 가진 상품을 찾을 수 없습니다."));
     }
 }
