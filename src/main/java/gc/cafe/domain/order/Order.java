@@ -28,11 +28,8 @@ public class Order extends BaseEntity {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @Column(nullable = false, length = 200)
-    private String address;
-
-    @Column(nullable = false, length = 20)
-    private String postcode;
+    @Embedded
+    private Address address;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -43,8 +40,10 @@ public class Order extends BaseEntity {
     @Builder
     private Order(String email, String address, String postcode, List<Product> products, Map<Long,Integer> orderProducts) {
         this.email = email;
-        this.address = address;
-        this.postcode = postcode;
+        this.address = Address.builder()
+            .address(address)
+            .postcode(postcode)
+            .build();
         this.orderStatus = OrderStatus.ORDERED;
         this.orderProducts = products.stream()
             .map(product -> new OrderProduct(this, product, orderProducts.get(product.getId())))

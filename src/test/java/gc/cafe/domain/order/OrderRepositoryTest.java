@@ -82,7 +82,7 @@ class OrderRepositoryTest extends IntegrationTestSupport {
 
         //then
         assertThat(findOrdersByEmail).hasSize(2)
-            .extracting("email", "address", "postcode", "orderStatus")
+            .extracting("email", "address.address", "address.postcode", "orderStatus")
             .containsExactlyInAnyOrder(
                 tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED),
                 tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED)
@@ -158,7 +158,7 @@ class OrderRepositoryTest extends IntegrationTestSupport {
         List<Order> findOrdersByOrderStatus = orderRepository.findByOrderStatus(ORDERED);
         //then
         assertThat(findOrdersByOrderStatus).hasSize(2)
-            .extracting("email", "address", "postcode", "orderStatus")
+            .extracting("email", "address.address", "address.postcode", "orderStatus")
             .containsExactlyInAnyOrder(
                 tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED),
                 tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED)
