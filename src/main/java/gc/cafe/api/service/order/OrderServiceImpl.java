@@ -2,11 +2,9 @@ package gc.cafe.api.service.order;
 
 
 import gc.cafe.api.service.order.request.OrderCreateServiceRequest;
-import gc.cafe.api.service.order.request.OrdersByEmailServiceRequest;
 import gc.cafe.api.service.order.response.OrderResponse;
 import gc.cafe.domain.order.Order;
 import gc.cafe.domain.order.OrderRepository;
-import gc.cafe.domain.order.OrderStatus;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Set;
 
-import static gc.cafe.domain.order.OrderStatus.*;
+import static gc.cafe.domain.order.OrderStatus.DELIVERING;
+import static gc.cafe.domain.order.OrderStatus.ORDERED;
 
 @RequiredArgsConstructor
 @Transactional

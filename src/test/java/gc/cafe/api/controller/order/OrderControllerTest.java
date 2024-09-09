@@ -1,24 +1,18 @@
 package gc.cafe.api.controller.order;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import gc.cafe.ControllerTestSupport;
 import gc.cafe.api.controller.order.request.OrderCreateRequest;
 import gc.cafe.api.controller.order.request.OrderProductQuantity;
-import gc.cafe.api.service.order.OrderService;
 import gc.cafe.api.service.order.request.OrderCreateServiceRequest;
 import gc.cafe.api.service.order.response.OrderDetailResponse;
 import gc.cafe.api.service.order.response.OrderResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.http.MediaType;
 
 import java.util.List;
 
-import static gc.cafe.domain.order.OrderStatus.DELIVERING;
 import static gc.cafe.domain.order.OrderStatus.ORDERED;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;

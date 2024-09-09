@@ -1,6 +1,5 @@
 package gc.cafe.domain.order;
 
-import gc.cafe.api.service.order.request.OrderCreateServiceRequest;
 import gc.cafe.domain.BaseEntity;
 import gc.cafe.domain.orderproduct.OrderProduct;
 import gc.cafe.domain.product.Product;
