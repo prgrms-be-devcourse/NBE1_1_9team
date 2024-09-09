@@ -151,3 +151,6 @@ url메서드 리턴타입 및 DTO 상속구조? 제네릭? 어떻게 해야할�
 2. @Transactional을 repository에 달면 transaction범위가 너무 작아짐 (save,update,delete단위로)<br>
    -> 서비스에서 논리적작업메서드단위로 트랜잭션이 실행되도록, 서비스클래스에 달아주기 <br>
    \* (readOnly = true) 같은 작업도
+
+3. 컨트롤러는 프론트와 통신하는 url메서드만 <br>
+private 내부 메서드 작성하지 말 것
