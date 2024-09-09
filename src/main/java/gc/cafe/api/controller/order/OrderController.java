@@ -19,17 +19,17 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<OrderResponse>> createOrder(@Valid @RequestBody OrderCreateRequest request) {
-        return ResponseEntity.ok(ApiResponse.ok(orderService.createOrder(request.toServiceRequest())));
+    public ApiResponse<OrderResponse> createOrder(@Valid @RequestBody OrderCreateRequest request) {
+        return ApiResponse.created(orderService.createOrder(request.toServiceRequest()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<OrderResponse>> getOrder(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.ok(orderService.getOrder(id)));
+    public ApiResponse<OrderResponse> getOrder(@PathVariable Long id) {
+        return ApiResponse.ok(orderService.getOrder(id));
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<OrderResponse>>> getOrdersByEmail(@RequestParam String email) {
-        return ResponseEntity.ok(ApiResponse.ok(orderService.getOrdersByEmail(email)));
+    public ApiResponse<List<OrderResponse>> getOrdersByEmail(@RequestParam String email) {
+        return ApiResponse.ok(orderService.getOrdersByEmail(email));
     }
 }

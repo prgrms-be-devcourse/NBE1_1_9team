@@ -18,23 +18,23 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<ProductResponse>> createProduct(@Valid @RequestBody ProductCreateRequest request) {
-        return ResponseEntity.ok(ApiResponse.ok(productService.createProduct(request.toServiceRequest())));
+    public ApiResponse<ProductResponse> createProduct(@Valid @RequestBody ProductCreateRequest request) {
+        return ApiResponse.created(productService.createProduct(request.toServiceRequest()));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Long>> deleteProduct(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.ok(productService.deleteProduct(id)));
+    public ApiResponse<Long> deleteProduct(@PathVariable Long id) {
+        return ApiResponse.ok(productService.deleteProduct(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateRequest request) {
-        return ResponseEntity.ok(ApiResponse.ok(productService.updateProduct(id, request.toServiceRequest())));
+    public ApiResponse<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductUpdateRequest request) {
+        return ApiResponse.ok(productService.updateProduct(id, request.toServiceRequest()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductResponse>> getProduct(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.ok(productService.getProduct(id)));
+    public ApiResponse<ProductResponse> getProduct(@PathVariable Long id) {
+        return ApiResponse.ok(productService.getProduct(id));
     }
 
 }

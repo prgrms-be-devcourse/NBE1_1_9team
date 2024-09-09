@@ -30,4 +30,8 @@ public class ApiResponse<T> {
         return of(HttpStatus.OK, data);
     }
 
+    public static <T> ApiResponse<T> created(T data) {
+        return of(HttpStatus.CREATED, data);
+    }
+
 }
