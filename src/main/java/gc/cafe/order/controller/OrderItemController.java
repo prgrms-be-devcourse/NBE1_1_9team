@@ -2,7 +2,7 @@ package gc.cafe.order.controller;
 
 import gc.cafe.base.dto.CommonResponse;
 import gc.cafe.base.dto.EmptyDto;
-import gc.cafe.order.dto.EmailVO;
+import gc.cafe.order.dto.EmailRequest;
 import gc.cafe.order.dto.OrderDetailResponse;
 import gc.cafe.order.dto.OrderListResponse;
 import gc.cafe.order.dto.OrderRequest;
@@ -35,9 +35,9 @@ public class OrderItemController {
 
     @GetMapping
     public CommonResponse<OrderListResponse> getOrders(
-            @RequestBody EmailVO emailVO
+            @RequestBody EmailRequest emailRequest
     ) {
-        return new CommonResponse<>(orderService.getOrders(emailVO));
+        return new CommonResponse<>(orderService.getOrders(emailRequest));
     }
 
     @GetMapping("/{orderId}")

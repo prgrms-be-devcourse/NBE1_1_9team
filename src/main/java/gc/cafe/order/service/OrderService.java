@@ -1,6 +1,6 @@
 package gc.cafe.order.service;
 
-import gc.cafe.order.dto.EmailVO;
+import gc.cafe.order.dto.EmailRequest;
 import gc.cafe.order.dto.OrderDetailResponse;
 import gc.cafe.order.dto.OrderListResponse;
 import gc.cafe.order.dto.OrderProductResponse;
@@ -54,7 +54,7 @@ public class OrderService {
         return new OrderResponse(savedOrder.getId());
     }
 
-    public OrderListResponse getOrders(EmailVO email) {
+    public OrderListResponse getOrders(EmailRequest email) {
         List<OrderSimpleResponse> result = orderRepository.findByEmail(email.value()).stream()
                 .map(it -> new OrderSimpleResponse(it.getId(), it.getEmail(), it.getAddress(), it.getPostcode(), calculateTotalPrice(it)))
                 .toList();

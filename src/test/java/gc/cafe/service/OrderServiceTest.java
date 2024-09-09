@@ -87,7 +87,7 @@ class OrderServiceTest {
     @DisplayName("주문 목록 조회 테스트")
     void getOrdersTest() {
         // when
-        OrderListResponse response = orderService.getOrders(new EmailVO("test@example.com"));
+        OrderListResponse response = orderService.getOrders(new EmailRequest("test@example.com"));
 
         // then
         assertThat(response.orders())

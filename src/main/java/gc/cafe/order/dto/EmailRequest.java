@@ -1,6 +1,6 @@
 package gc.cafe.order.dto;
 
-public record EmailVO(
+public record EmailRequest(
         String value
 ) {
 }
