@@ -119,13 +119,13 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .description("에스프레소")
             .build();
 
-        productRepository.saveAll(List.of(product1, product2));
+        List<Product> products = productRepository.saveAll(List.of(product1, product2));
 
         Order order = Order.builder()
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(1L, 1, 2L, 2))
+            .orderProducts(Map.of(products.get(0).getId(), 1, products.get(1).getId(), 2))
             .products(List.of(
                 product1,
                 product2
@@ -182,13 +182,13 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .description("에스프레소")
             .build();
 
-        productRepository.saveAll(List.of(product1, product2));
+        List<Product> products = productRepository.saveAll(List.of(product1, product2));
 
         Order order1 = Order.builder()
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(1L, 1, 2L, 2))
+            .orderProducts(Map.of(products.get(0).getId(), 1, products.get(1).getId(), 2))
             .products(List.of(
                 product1,
                 product2
@@ -199,7 +199,7 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(1L, 2, 2L, 4))
+            .orderProducts(Map.of(products.get(0).getId(), 2, products.get(1).getId(), 4))
             .products(List.of(
                 product1,
                 product2
@@ -252,13 +252,13 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .description("에스프레소")
             .build();
 
-        productRepository.saveAll(List.of(product1, product2));
+        List<Product> products = productRepository.saveAll(List.of(product1, product2));
 
         Order order1 = Order.builder()
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(1L, 1, 2L, 2))
+            .orderProducts(Map.of(products.get(0).getId(), 1, products.get(1).getId(), 2))
             .products(List.of(
                 product1,
                 product2
@@ -269,7 +269,7 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(1L, 2, 2L, 4))
+            .orderProducts(Map.of(products.get(0).getId(), 2, products.get(1).getId(), 4))
             .products(List.of(
                 product1,
                 product2
