@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByEmail(String email);
 
-    @Modifying
+    @Modifying(flushAutomatically = true)
     @Query("update Order o set o.orderStatus ='COMPLETED' where o.orderStatus = 'READY'")
     void bulkUpdateOrderStatus();
 }
