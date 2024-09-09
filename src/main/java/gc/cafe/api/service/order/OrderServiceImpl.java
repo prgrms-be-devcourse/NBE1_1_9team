@@ -11,11 +11,13 @@ import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -38,9 +40,13 @@ public class OrderServiceImpl implements OrderService {
         return OrderResponse.of(savedOrder);
     }
 
+
     @Override
+    @Transactional(readOnly = true)
     public OrderResponse getOrder(Long id) {
-        return null;
+        Order order = orderRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 주문 id : " + id + "를 가진 주문이 존재하지 않습니다."));
+        return OrderResponse.of(order);
     }
 
     @Override

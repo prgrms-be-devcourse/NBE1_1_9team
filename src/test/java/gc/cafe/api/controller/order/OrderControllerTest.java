@@ -20,6 +20,7 @@ import static gc.cafe.domain.order.OrderStatus.ORDERED;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -171,7 +172,7 @@ class OrderControllerTest extends ControllerTestSupport {
     @Test
     void createOrderWhenEmailLengthIsOver50() throws Exception {
         OrderCreateRequest request = OrderCreateRequest.builder()
-            .email(generateFixedLengthString(41)+"@gmail.com")
+            .email(generateFixedLengthString(41) + "@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
             .orderProductsQuantity(
@@ -206,7 +207,7 @@ class OrderControllerTest extends ControllerTestSupport {
     @Test
     void createOrderWhenEmailLengthIs0() throws Exception {
         OrderCreateRequest request = OrderCreateRequest.builder()
-            .email(generateFixedLengthString(40)+"@gmail.com")
+            .email(generateFixedLengthString(40) + "@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
             .orderProductsQuantity(
@@ -228,7 +229,7 @@ class OrderControllerTest extends ControllerTestSupport {
                 OrderResponse.builder()
                     .id(1L)
                     .orderStatus(ORDERED)
-                    .email(generateFixedLengthString(40)+"@gmail.com")
+                    .email(generateFixedLengthString(40) + "@gmail.com")
                     .address("서울시 강남구")
                     .postcode("125454")
                     .orderDetails(
@@ -260,7 +261,7 @@ class OrderControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.data").isMap())
             .andExpect(jsonPath("$.data.id").value(1L))
             .andExpect(jsonPath("$.data.orderStatus").value("ORDERED"))
-            .andExpect(jsonPath("$.data.email").value(generateFixedLengthString(40)+"@gmail.com"))
+            .andExpect(jsonPath("$.data.email").value(generateFixedLengthString(40) + "@gmail.com"))
             .andExpect(jsonPath("$.data.address").value("서울시 강남구"))
             .andExpect(jsonPath("$.data.postcode").value("125454"))
             .andExpect(jsonPath("$.data.orderDetails").isArray())
@@ -674,6 +675,63 @@ class OrderControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.message").value("상품 수량은 1 이상이어야 합니다."))
             .andExpect(jsonPath("$.data").isEmpty());
     }
+
+    @DisplayName("주문ID로 주문을 조회한다.")
+    @Test
+    void getOrderByOrderId() throws Exception {
+
+        Long pathValue = 1L;
+
+        given(orderService.getOrder(pathValue))
+            .willReturn(
+                OrderResponse.builder()
+                    .id(pathValue)
+                    .orderStatus(ORDERED)
+                    .email("test@gmail.com")
+                    .address("서울시 강남구")
+                    .postcode("125454")
+                    .orderDetails(
+                        List.of(
+                            OrderDetailResponse.builder()
+                                .price(1000L)
+                                .quantity(1)
+                                .category("원두")
+                                .build()
+                            ,
+                            OrderDetailResponse.builder()
+                                .price(2000L)
+                                .quantity(2)
+                                .category("음료")
+                                .build()
+                        ))
+                    .build());
+
+        mockMvc.perform(
+                get("/api/v1/orders/{id}", 1L)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.code").value("200"))
+            .andExpect(jsonPath("$.status").value("OK"))
+            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.data").isMap())
+            .andExpect(jsonPath("$.data.id").value(1L))
+            .andExpect(jsonPath("$.data.orderStatus").value("ORDERED"))
+            .andExpect(jsonPath("$.data.email").value("test@gmail.com"))
+            .andExpect(jsonPath("$.data.address").value("서울시 강남구"))
+            .andExpect(jsonPath("$.data.postcode").value("125454"))
+            .andExpect(jsonPath("$.data.orderDetails").isArray())
+            .andExpect(jsonPath("$.data.orderDetails[0].price").value(1000L))
+            .andExpect(jsonPath("$.data.orderDetails[0].quantity").value(1))
+            .andExpect(jsonPath("$.data.orderDetails[0].category").value("원두"))
+            .andExpect(jsonPath("$.data.orderDetails[1].price").value(2000L))
+            .andExpect(jsonPath("$.data.orderDetails[1].quantity").value(2))
+            .andExpect(jsonPath("$.data.orderDetails[1].category").value("음료"));
+
+    }
+
+
     private static String generateFixedLengthString(int length) {
         return "나".repeat(length);
     }

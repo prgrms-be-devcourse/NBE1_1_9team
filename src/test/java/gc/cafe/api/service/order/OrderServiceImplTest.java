@@ -17,10 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 import static gc.cafe.domain.order.OrderStatus.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
@@ -94,11 +94,75 @@ class OrderServiceImplTest extends IntegrationTestSupport {
 
         assertThat(response.getOrderDetails())
             .hasSize(2)
-            .extracting("category", "price","quantity")
+            .extracting("category", "price", "quantity")
             .containsExactlyInAnyOrder(
                 tuple("원두", 50000L, 1),
                 tuple("음료", 3000L, 2)
             );
+    }
+
+
+    @DisplayName("주문 ID로 주문을 조회한다.")
+    @Test
+    void getOrderByOrderId() {
+        //given
+        Product product1 = Product.builder()
+            .name("스타벅스 원두")
+            .category("원두")
+            .price(50000L)
+            .description("에티오피아산")
+            .build();
+        Product product2 = Product.builder()
+            .name("스타벅스 라떼")
+            .category("음료")
+            .price(3000L)
+            .description("에스프레소")
+            .build();
+
+        productRepository.saveAll(List.of(product1, product2));
+
+        Order order = Order.builder()
+            .email("test@gmail.com")
+            .address("서울시 강남구")
+            .postcode("125454")
+            .orderProducts(Map.of(1L, 1, 2L, 2))
+            .products(List.of(
+                product1,
+                product2
+            ))
+            .build();
+
+        Order savedOrder = orderRepository.save(order);
+
+        //when
+        OrderResponse response = orderService.getOrder(savedOrder.getId());
+        //then
+        assertThat(response)
+            .extracting("id", "email", "address", "postcode", "orderStatus")
+            .containsExactlyInAnyOrder(
+                savedOrder.getId(), "test@gmail.com", "서울시 강남구", "125454", ORDERED
+            );
+
+        assertThat(response.getOrderDetails())
+            .hasSize(2)
+            .extracting("category", "price", "quantity")
+            .containsExactlyInAnyOrder(
+                tuple("원두", 50000L, 1),
+                tuple("음료", 3000L, 2)
+            );
+    }
+
+    @DisplayName("주문 ID를 통해 주문을 조회 할 때 해당 ID의 주문이 존재하지 않을 때 주문을 조회 할 수 없다.")
+    @Test
+    void getOrderByOrderIdWhenOrderIsNull() {
+        //given
+        Long orderId = 1L;
+
+        //when
+        //then
+        assertThatThrownBy(() -> orderService.getOrder(orderId))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("해당 주문 id : " + orderId + "를 가진 주문이 존재하지 않습니다.");
     }
 
 }
