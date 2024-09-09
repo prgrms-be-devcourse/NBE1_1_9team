@@ -81,7 +81,7 @@ class OrderServiceImplTest extends IntegrationTestSupport {
 
         //then
         assertThat(orders).hasSize(1)
-            .extracting("id", "email", "address", "postcode", "orderStatus")
+            .extracting("id", "email", "address.address", "address.postcode", "orderStatus")
             .containsExactlyInAnyOrder(
                 tuple(orders.get(0).getId(), "test@gmail.com", "서울시 강남구", "125454", ORDERED)
             );

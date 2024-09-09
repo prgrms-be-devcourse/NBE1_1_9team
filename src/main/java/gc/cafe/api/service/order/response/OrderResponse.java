@@ -18,7 +18,7 @@ public class OrderResponse {
     private List<OrderDetailResponse> orderDetails;
 
     @Builder
-    public OrderResponse(Long id, String email, String address, String postcode, OrderStatus orderStatus, List<OrderDetailResponse> orderDetails) {
+    private OrderResponse(Long id, String email, String address, String postcode, OrderStatus orderStatus, List<OrderDetailResponse> orderDetails) {
         this.id = id;
         this.email = email;
         this.address = address;
@@ -31,8 +31,8 @@ public class OrderResponse {
         return OrderResponse.builder()
             .id(order.getId())
             .email(order.getEmail())
-            .address(order.getAddress())
-            .postcode(order.getPostcode())
+            .address(order.getAddress().getAddress())
+            .postcode(order.getAddress().getPostcode())
             .orderStatus(order.getOrderStatus())
             .orderDetails(order.getOrderProducts().stream()
                 .map(orderProduct -> OrderDetailResponse.builder()

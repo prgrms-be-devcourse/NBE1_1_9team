@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -86,7 +85,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         //when
         //then
         assertThatThrownBy(() -> productService.getProduct(productId))
-            .isInstanceOf(NoSuchElementException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("해당 id : " + productId + "를 가진 상품을 찾을 수 없습니다.");
 
     }
@@ -124,7 +123,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         //when
         //then
         assertThatThrownBy(()->productService.deleteProduct(productId))
-            .isInstanceOf(NoSuchElementException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("해당 id : " + productId + "를 가진 상품을 찾을 수 없습니다.");
     }
 
@@ -173,7 +172,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
         //when
         //then
         assertThatThrownBy(()->productService.updateProduct(productId,request))
-            .isInstanceOf(NoSuchElementException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("해당 id : " + productId + "를 가진 상품을 찾을 수 없습니다.");
     }
 

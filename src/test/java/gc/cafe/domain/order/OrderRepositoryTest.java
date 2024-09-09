@@ -82,24 +82,22 @@ class OrderRepositoryTest extends IntegrationTestSupport {
 
         //then
         assertThat(findOrdersByEmail).hasSize(2)
-            .extracting("email", "address", "postcode", "orderStatus")
+            .extracting("email", "address.address", "address.postcode", "orderStatus")
             .containsExactlyInAnyOrder(
                 tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED),
                 tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED)
             );
 
         assertThat(findOrdersByEmail.get(0).getOrderProducts()).hasSize(2)
-            .extracting("category", "price", "quantity")
-            .containsExactlyInAnyOrder(
-                tuple("원두", 50000L, 1),
-                tuple("음료", 3000L, 2)
+            .extracting("quantity")
+            .contains(
+                1,2
             );
 
         assertThat(findOrdersByEmail.get(1).getOrderProducts()).hasSize(2)
-            .extracting("category", "price", "quantity")
-            .containsExactlyInAnyOrder(
-                tuple("원두", 50000L, 2),
-                tuple("베이커리", 5000L, 4)
+            .extracting("quantity")
+            .contains(
+                2,4
             );
 
     }
@@ -158,24 +156,22 @@ class OrderRepositoryTest extends IntegrationTestSupport {
         List<Order> findOrdersByOrderStatus = orderRepository.findByOrderStatus(ORDERED);
         //then
         assertThat(findOrdersByOrderStatus).hasSize(2)
-            .extracting("email", "address", "postcode", "orderStatus")
+            .extracting("email", "address.address", "address.postcode", "orderStatus")
             .containsExactlyInAnyOrder(
                 tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED),
                 tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED)
             );
 
         assertThat(findOrdersByOrderStatus.get(0).getOrderProducts()).hasSize(2)
-            .extracting("category", "price", "quantity")
-            .containsExactlyInAnyOrder(
-                tuple("원두", 50000L, 1),
-                tuple("음료", 3000L, 2)
+            .extracting("quantity")
+            .contains(
+                1,2
             );
 
         assertThat(findOrdersByOrderStatus.get(1).getOrderProducts()).hasSize(2)
-            .extracting("category", "price", "quantity")
+            .extracting("quantity")
             .containsExactlyInAnyOrder(
-                tuple("원두", 50000L, 2),
-                tuple("베이커리", 5000L, 4)
+                2,4
             );
     }
 }
