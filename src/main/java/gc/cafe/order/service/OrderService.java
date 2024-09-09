@@ -104,7 +104,8 @@ public class OrderService {
     }
 
     private Order getOrder(Long orderId) {
-        return orderRepository.findByIdWithOrOrderItems(orderId).orElseThrow(() -> new IllegalArgumentException("해당 주문은 없습니다."));
+        return orderRepository.findByIdWithOrOrderItems(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 주문은 없습니다."));
     }
 
 }

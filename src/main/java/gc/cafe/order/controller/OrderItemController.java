@@ -27,17 +27,23 @@ public class OrderItemController {
     private final OrderService orderService;
 
     @PostMapping
-    public CommonResponse<OrderResponse> makeOrder(@RequestBody OrderRequest orderRequest) {
+    public CommonResponse<OrderResponse> makeOrder(
+            @RequestBody OrderRequest orderRequest
+    ) {
         return new CommonResponse<>(orderService.makeOrder(orderRequest));
     }
 
     @GetMapping
-    public CommonResponse<OrderListResponse> getOrders(@RequestBody EmailVO emailVO) {
+    public CommonResponse<OrderListResponse> getOrders(
+            @RequestBody EmailVO emailVO
+    ) {
         return new CommonResponse<>(orderService.getOrders(emailVO));
     }
 
     @GetMapping("/{orderId}")
-    public CommonResponse<OrderDetailResponse> getOrderDetail(@PathVariable("orderId") Long orderId) {
+    public CommonResponse<OrderDetailResponse> getOrderDetail(
+            @PathVariable("orderId") Long orderId
+    ) {
         return new CommonResponse<>(orderService.getOrderDetail(orderId));
     }
 
@@ -45,12 +51,14 @@ public class OrderItemController {
     public CommonResponse<OrderResponse> updateOrder(
             @PathVariable("orderId") Long orderId,
             @RequestBody OrderUpdateRequest orderUpdateRequest
-            ) {
+    ) {
         return new CommonResponse<>(orderService.updateOrder(orderId, orderUpdateRequest));
     }
 
     @DeleteMapping("/{orderId}")
-    public CommonResponse<EmptyDto> deleteOrder(@PathVariable("orderId") Long orderId) {
+    public CommonResponse<EmptyDto> deleteOrder(
+            @PathVariable("orderId") Long orderId
+    ) {
         orderService.deleteOrder(orderId);
         return CommonResponse.EMPTY;
     }

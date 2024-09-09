@@ -26,7 +26,9 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public CommonResponse<ProductResponse> addProduct(@RequestBody ProductAddRequest productAddRequest) {
+    public CommonResponse<ProductResponse> addProduct(
+            @RequestBody ProductAddRequest productAddRequest
+    ) {
         return new CommonResponse<>(productService.addProduct(productAddRequest));
     }
 
@@ -36,7 +38,9 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public CommonResponse<ProductDetailResponse> getProductDetail(@PathVariable("productId") Long productId) {
+    public CommonResponse<ProductDetailResponse> getProductDetail(
+            @PathVariable("productId") Long productId
+    ) {
         return new CommonResponse<>(productService.getProductDetail(productId));
     }
 
@@ -49,7 +53,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    public CommonResponse<EmptyDto> deleteProduct(@PathVariable("productId") Long productId) {
+    public CommonResponse<EmptyDto> deleteProduct(
+            @PathVariable("productId") Long productId
+    ) {
         productService.deleteProduct(productId);
         return CommonResponse.EMPTY;
     }
