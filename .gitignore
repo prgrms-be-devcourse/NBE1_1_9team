@@ -163,3 +163,5 @@ gradle-app.setting
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+### application setting file
+src/main/resources/application.properties
