@@ -10,6 +10,7 @@ import gc.cafe.domain.order.OrderStatus;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,11 +62,11 @@ public class OrderServiceImpl implements OrderService {
             .toList();
     }
 
+    @Async("threadPoolTaskExecutor")
     @Scheduled(cron = "0 0 14 * * *")
-    private void sendOrder() {
+    protected void sendOrder() {
         List<Order> orders = orderRepository.findByOrderStatus(ORDERED);
 
         orders.forEach(order -> order.updateStatus(DELIVERING));
-
     }
 }

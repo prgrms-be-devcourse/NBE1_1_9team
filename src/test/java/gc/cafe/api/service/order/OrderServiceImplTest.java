@@ -3,26 +3,26 @@ package gc.cafe.api.service.order;
 import gc.cafe.IntegrationTestSupport;
 import gc.cafe.api.controller.order.request.OrderProductQuantity;
 import gc.cafe.api.service.order.request.OrderCreateServiceRequest;
-import gc.cafe.api.service.order.response.OrderDetailResponse;
 import gc.cafe.api.service.order.response.OrderResponse;
+import gc.cafe.config.AsyncTestConfig;
 import gc.cafe.domain.order.Order;
 import gc.cafe.domain.order.OrderRepository;
-import gc.cafe.domain.order.OrderStatus;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
-import static gc.cafe.domain.order.OrderStatus.*;
+import static gc.cafe.domain.order.OrderStatus.DELIVERING;
+import static gc.cafe.domain.order.OrderStatus.ORDERED;
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
+@ContextConfiguration(classes = AsyncTestConfig.class)
 @Transactional
 class OrderServiceImplTest extends IntegrationTestSupport {
 
@@ -167,7 +167,7 @@ class OrderServiceImplTest extends IntegrationTestSupport {
 
     @DisplayName("이메일을 통해 주문 목록을 조회한다.")
     @Test
-    void test() {
+    void getOrdersByEmail() {
         //given
         Product product1 = Product.builder()
             .name("스타벅스 원두")
@@ -233,6 +233,60 @@ class OrderServiceImplTest extends IntegrationTestSupport {
                 tuple("원두", 50000L, 2),
                 tuple("음료", 3000L, 4)
             );
+    }
+
+    @DisplayName("매일 14시가 되면 주문 상태를 변경한다.")
+    @Test
+    void updateOrderStatusByScheduler() {
+        //given
+        Product product1 = Product.builder()
+            .name("스타벅스 원두")
+            .category("원두")
+            .price(50000L)
+            .description("에티오피아산")
+            .build();
+        Product product2 = Product.builder()
+            .name("스타벅스 라떼")
+            .category("음료")
+            .price(3000L)
+            .description("에스프레소")
+            .build();
+
+        productRepository.saveAll(List.of(product1, product2));
+
+        Order order1 = Order.builder()
+            .email("test@gmail.com")
+            .address("서울시 강남구")
+            .postcode("125454")
+            .orderProducts(Map.of(1L, 1, 2L, 2))
+            .products(List.of(
+                product1,
+                product2
+            ))
+            .build();
+
+        Order order2 = Order.builder()
+            .email("test@gmail.com")
+            .address("서울시 강남구")
+            .postcode("125454")
+            .orderProducts(Map.of(1L, 2, 2L, 4))
+            .products(List.of(
+                product1,
+                product2
+            ))
+            .build();
+
+        orderRepository.saveAll(List.of(order1, order2));
+
+        //when
+        orderService.sendOrder();
+
+        //then
+        List<Order> orders = orderRepository.findAll();
+
+        assertThat(orders).hasSize(2)
+            .extracting("orderStatus")
+            .containsExactlyInAnyOrder(DELIVERING, DELIVERING);
     }
 
 }
