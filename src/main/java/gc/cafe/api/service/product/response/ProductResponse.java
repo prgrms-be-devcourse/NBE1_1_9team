@@ -23,7 +23,7 @@ public class ProductResponse {
     }
 
     public static ProductResponse of(Product product) {
-         return ProductResponse.builder()
+        return ProductResponse.builder()
             .id(product.getId())
             .name(product.getName())
             .category(product.getCategory())

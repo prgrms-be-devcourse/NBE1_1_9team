@@ -5,7 +5,6 @@ import gc.cafe.domain.order.Order;
 import gc.cafe.domain.product.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

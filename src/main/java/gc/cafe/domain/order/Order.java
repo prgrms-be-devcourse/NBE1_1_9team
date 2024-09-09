@@ -38,7 +38,7 @@ public class Order extends BaseEntity {
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     @Builder
-    private Order(String email, String address, String postcode, List<Product> products, Map<Long,Integer> orderProducts) {
+    private Order(String email, String address, String postcode, List<Product> products, Map<Long, Integer> orderProducts) {
         this.email = email;
         this.address = Address.builder()
             .address(address)

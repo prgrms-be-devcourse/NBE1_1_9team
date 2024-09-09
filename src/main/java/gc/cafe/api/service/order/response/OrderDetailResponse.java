@@ -1,6 +1,5 @@
 package gc.cafe.api.service.order.response;
 
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 

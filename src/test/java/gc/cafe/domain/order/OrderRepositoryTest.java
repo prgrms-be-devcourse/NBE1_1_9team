@@ -91,13 +91,13 @@ class OrderRepositoryTest extends IntegrationTestSupport {
         assertThat(findOrdersByEmail.get(0).getOrderProducts()).hasSize(2)
             .extracting("quantity")
             .contains(
-                1,2
+                1, 2
             );
 
         assertThat(findOrdersByEmail.get(1).getOrderProducts()).hasSize(2)
             .extracting("quantity")
             .contains(
-                2,4
+                2, 4
             );
 
     }
@@ -165,13 +165,13 @@ class OrderRepositoryTest extends IntegrationTestSupport {
         assertThat(findOrdersByOrderStatus.get(0).getOrderProducts()).hasSize(2)
             .extracting("quantity")
             .contains(
-                1,2
+                1, 2
             );
 
         assertThat(findOrdersByOrderStatus.get(1).getOrderProducts()).hasSize(2)
             .extracting("quantity")
             .containsExactlyInAnyOrder(
-                2,4
+                2, 4
             );
     }
 }

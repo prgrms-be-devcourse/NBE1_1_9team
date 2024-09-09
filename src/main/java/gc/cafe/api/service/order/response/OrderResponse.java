@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Getter
 public class OrderResponse {
@@ -34,13 +35,17 @@ public class OrderResponse {
             .address(order.getAddress().getAddress())
             .postcode(order.getAddress().getPostcode())
             .orderStatus(order.getOrderStatus())
-            .orderDetails(order.getOrderProducts().stream()
-                .map(orderProduct -> OrderDetailResponse.builder()
-                    .category(orderProduct.getProduct().getCategory())
-                    .price(orderProduct.getProduct().getPrice())
-                    .quantity(orderProduct.getQuantity())
-                    .build())
+            .orderDetails(getOrderDetailResponseStream(order)
                 .toList())
             .build();
+    }
+
+    private static Stream<OrderDetailResponse> getOrderDetailResponseStream(Order order) {
+        return order.getOrderProducts().stream()
+            .map(orderProduct -> OrderDetailResponse.builder()
+                .category(orderProduct.getProduct().getCategory())
+                .price(orderProduct.getProduct().getPrice())
+                .quantity(orderProduct.getQuantity())
+                .build());
     }
 }

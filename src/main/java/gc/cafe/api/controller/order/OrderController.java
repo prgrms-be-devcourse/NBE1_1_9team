@@ -6,7 +6,6 @@ import gc.cafe.api.service.order.OrderService;
 import gc.cafe.api.service.order.response.OrderResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

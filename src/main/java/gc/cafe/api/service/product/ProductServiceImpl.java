@@ -6,7 +6,6 @@ import gc.cafe.api.service.product.response.ProductResponse;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
