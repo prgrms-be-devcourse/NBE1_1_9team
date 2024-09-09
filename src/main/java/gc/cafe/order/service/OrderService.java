@@ -35,9 +35,7 @@ public class OrderService {
     @Scheduled(cron = "0 0 14 * * *")
     public void deliveryAllOrder() {
         String sql = "UPDATE Orders SET order_status = ? WHERE order_status = ?";
-        int updatedRows = jdbcTemplate.update(sql, "DELIVERED", "ORDERED");
-
-        System.out.println("Updated rows: " + updatedRows);
+        jdbcTemplate.update(sql, "DELIVERED", "ORDERED");
     }
 
     @Transactional
@@ -106,7 +104,7 @@ public class OrderService {
     }
 
     private Order getOrder(Long orderId) {
-        return orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("해당 주문은 없습니다."));
+        return orderRepository.findByIdWithOrOrderItems(orderId).orElseThrow(() -> new IllegalArgumentException("해당 주문은 없습니다."));
     }
 
 }
