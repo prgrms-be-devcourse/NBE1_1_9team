@@ -4,6 +4,7 @@ import gc.cafe.domain.entity.Order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -13,6 +14,8 @@ public class OrderResponseDto {
     private String email;
     private String address;
     private String postcode;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private List<OrderItemResponseDto> orderItems;
 
     public OrderResponseDto(Order entity){
@@ -20,6 +23,8 @@ public class OrderResponseDto {
         this.email = entity.getEmail();
         this.address = entity.getAddress();
         this.postcode = entity.getPostcode();
+        this.createdAt = entity.getCreatedAt();
+        this.updatedAt = entity.getUpdatedAt();
         this.orderItems = entity.getOrderItems()
                 .stream()
                 .map(OrderItemResponseDto::new)

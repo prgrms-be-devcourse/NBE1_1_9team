@@ -5,6 +5,8 @@ import gc.cafe.domain.entity.OrderItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 public class OrderItemResponseDto {
@@ -13,6 +15,8 @@ public class OrderItemResponseDto {
     private Category category;
     private Long price;
     private int quantity;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     public OrderItemResponseDto(OrderItem orderItem){
         this.seq = orderItem.getSeq();
@@ -20,5 +24,7 @@ public class OrderItemResponseDto {
         this.category = orderItem.getCategory();
         this.price = orderItem.getPrice();
         this.quantity = orderItem.getQuantity();
+        this.createdAt = orderItem.getCreatedAt();
+        this.updatedAt = orderItem.getUpdatedAt();
     }
 }
