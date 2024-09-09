@@ -86,7 +86,7 @@ public class OrderControllerDocsTest extends RestDocsSupport {
                     .build());
 
         mockMvc.perform(
-                post("/api/v1/orders/new")
+                post("/api/v1/orders")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)
                     ))

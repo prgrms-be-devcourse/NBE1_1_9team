@@ -17,7 +17,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<ApiResponse<ProductResponse>> createProduct(@Valid @RequestBody ProductCreateRequest request) {
         return ResponseEntity.ok(ApiResponse.ok(productService.createProduct(request.toServiceRequest())));
     }

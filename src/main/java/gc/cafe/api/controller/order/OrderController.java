@@ -18,7 +18,7 @@ public class OrderController {
 
     private final OrderService orderService;
 
-    @PostMapping("/new")
+    @PostMapping
     public ResponseEntity<ApiResponse<OrderResponse>> createOrder(@Valid @RequestBody OrderCreateRequest request) {
         return ResponseEntity.ok(ApiResponse.ok(orderService.createOrder(request.toServiceRequest())));
     }
