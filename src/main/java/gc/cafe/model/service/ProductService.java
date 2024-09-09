@@ -1,14 +1,21 @@
 package gc.cafe.model.service;
 
-import gc.cafe.model.dto.ProductDto;
+import gc.cafe.controller.dto.req.ProductReqDto;
+import gc.cafe.controller.dto.res.ProductListDto;
+import gc.cafe.controller.dto.res.ProductResDto;
+import gc.cafe.model.entity.Products;
 
 import java.util.List;
 
 public interface ProductService {
 
-    List<ProductDto> getProductList();
+    List<ProductListDto> getProductList(int page);
 
-    String addProduct(ProductDto dto);
+    String addProduct(ProductReqDto dto);
 
-    String updateProduct(ProductDto dto);
+    String updateProduct(ProductReqDto dto);
+
+    String deleteProduct(String id);
+
+    ProductResDto getProductOne(String id);
 }
