@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 
 import java.util.List;
 
+import static gc.cafe.domain.order.OrderStatus.DELIVERING;
 import static gc.cafe.domain.order.OrderStatus.ORDERED;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -728,6 +729,63 @@ class OrderControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.data.orderDetails[1].price").value(2000L))
             .andExpect(jsonPath("$.data.orderDetails[1].quantity").value(2))
             .andExpect(jsonPath("$.data.orderDetails[1].category").value("음료"));
+
+    }
+
+    @DisplayName("이메일을 통해 주문을 조회한다.")
+    @Test
+    void getOrderByEmail() throws Exception {
+        //given
+        String email = "test@gmail.com";
+
+        given(orderService.getOrdersByEmail(email))
+            .willReturn(List.of(
+                OrderResponse.builder()
+                    .id(1L)
+                    .email(email)
+                    .address("서울시 강남구")
+                    .postcode("125454")
+                    .orderStatus(ORDERED)
+                    .orderDetails(
+                        List.of(
+                            OrderDetailResponse.builder()
+                                .price(1000L)
+                                .quantity(1)
+                                .category("원두")
+                                .build()
+                            ,
+                            OrderDetailResponse.builder()
+                                .price(2000L)
+                                .quantity(2)
+                                .category("음료")
+                                .build()
+                        ))
+                    .build()
+            ));
+
+        mockMvc.perform(
+                get("/api/v1/orders")
+                    .param("email", email)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.code").value("200"))
+            .andExpect(jsonPath("$.status").value("OK"))
+            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.data").isArray())
+            .andExpect(jsonPath("$.data[0].id").value(1L))
+            .andExpect(jsonPath("$.data[0].orderStatus").value("ORDERED"))
+            .andExpect(jsonPath("$.data[0].email").value("test@gmail.com"))
+            .andExpect(jsonPath("$.data[0].address").value("서울시 강남구"))
+            .andExpect(jsonPath("$.data[0].postcode").value("125454"))
+            .andExpect(jsonPath("$.data[0].orderDetails").isArray())
+            .andExpect(jsonPath("$.data[0].orderDetails[0].price").value(1000L))
+            .andExpect(jsonPath("$.data[0].orderDetails[0].quantity").value(1))
+            .andExpect(jsonPath("$.data[0].orderDetails[0].category").value("원두"))
+            .andExpect(jsonPath("$.data[0].orderDetails[1].price").value(2000L))
+            .andExpect(jsonPath("$.data[0].orderDetails[1].quantity").value(2))
+            .andExpect(jsonPath("$.data[0].orderDetails[1].category").value("음료"));
 
     }
 

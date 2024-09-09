@@ -51,6 +51,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderResponse> getOrdersByEmail(String email) {
-        return List.of();
+        List<Order> orders = orderRepository.findByEmail(email);
+
+        return orders.stream()
+            .map(OrderResponse::of)
+            .toList();
     }
 }

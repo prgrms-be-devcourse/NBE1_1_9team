@@ -165,4 +165,74 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .hasMessage("해당 주문 id : " + orderId + "를 가진 주문이 존재하지 않습니다.");
     }
 
+    @DisplayName("이메일을 통해 주문 목록을 조회한다.")
+    @Test
+    void test() {
+        //given
+        Product product1 = Product.builder()
+            .name("스타벅스 원두")
+            .category("원두")
+            .price(50000L)
+            .description("에티오피아산")
+            .build();
+        Product product2 = Product.builder()
+            .name("스타벅스 라떼")
+            .category("음료")
+            .price(3000L)
+            .description("에스프레소")
+            .build();
+
+        productRepository.saveAll(List.of(product1, product2));
+
+        Order order1 = Order.builder()
+            .email("test@gmail.com")
+            .address("서울시 강남구")
+            .postcode("125454")
+            .orderProducts(Map.of(1L, 1, 2L, 2))
+            .products(List.of(
+                product1,
+                product2
+            ))
+            .build();
+
+        Order order2 = Order.builder()
+            .email("test@gmail.com")
+            .address("서울시 강남구")
+            .postcode("125454")
+            .orderProducts(Map.of(1L, 2, 2L, 4))
+            .products(List.of(
+                product1,
+                product2
+            ))
+            .build();
+
+        orderRepository.saveAll(List.of(order1, order2));
+        //when
+        List<OrderResponse> response = orderService.getOrdersByEmail("test@gmail.com");
+
+        //then
+        assertThat(response).hasSize(2)
+            .extracting("email", "address", "postcode", "orderStatus")
+            .containsExactlyInAnyOrder(
+                tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED),
+                tuple("test@gmail.com", "서울시 강남구", "125454", ORDERED)
+            );
+
+        assertThat(response.get(0).getOrderDetails())
+            .hasSize(2)
+            .extracting("category", "price", "quantity")
+            .containsExactlyInAnyOrder(
+                tuple("원두", 50000L, 1),
+                tuple("음료", 3000L, 2)
+            );
+
+        assertThat(response.get(1).getOrderDetails())
+            .hasSize(2)
+            .extracting("category", "price", "quantity")
+            .containsExactlyInAnyOrder(
+                tuple("원두", 50000L, 2),
+                tuple("음료", 3000L, 4)
+            );
+    }
+
 }
