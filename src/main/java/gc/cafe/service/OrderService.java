@@ -1,5 +1,5 @@
 package gc.cafe.service;
-
+import gc.cafe.domain.dto.request.OrderItemRequestDto;
 import gc.cafe.domain.dto.request.OrderRequestDto;
 import gc.cafe.domain.entity.Order;
 import gc.cafe.domain.entity.OrderItem;
@@ -27,14 +27,7 @@ public class OrderService {
     @Transactional
     public Long create(OrderRequestDto requestDto) {
         Order order = requestDto.toEntity();
-        requestDto.getOrderItems()
-                .forEach(itemRequestDto -> {
-                    Product product = productRepository.findById(itemRequestDto.getProductId())
-                            .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
-                    OrderItem orderItem = itemRequestDto.toEntity();
-                    product.addOrderItem(orderItem);
-                    order.addOrderItem(orderItem);
-                });
+        addOrderItems(requestDto.getOrderItems(), order);
         return orderRepository.save(order).getOrderId();
     }
 
@@ -52,15 +45,7 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_ORDER));
         updateOrderDetails(order, requestDto);
-        orderItemRepository.deleteByOrder(order);
-        requestDto.getOrderItems()
-                .forEach(itemRequestDto -> {
-                    Product product = productRepository.findById(itemRequestDto.getProductId())
-                            .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
-                    OrderItem orderItem = itemRequestDto.toEntity();
-                    product.addOrderItem(orderItem);
-                    order.addOrderItem(orderItem);
-                });
+        updateOrderItems(order, requestDto.getOrderItems());
         return orderRepository.save(order).getOrderId();
     }
 
@@ -69,6 +54,26 @@ public class OrderService {
                 requestDto.getAddress(),
                 requestDto.getPostcode(),
                 OrderStatus.READY);
+    }
+
+    private void updateOrderItems(Order order, List<OrderItemRequestDto> itemRequestDtos) {
+        orderItemRepository.deleteByOrder(order);
+        addOrderItems(itemRequestDtos, order);
+    }
+
+    private void addOrderItems(List<OrderItemRequestDto> itemRequestDtos, Order order) {
+        itemRequestDtos
+                .forEach(itemRequestDto -> {
+                    Product product = findProductById(itemRequestDto.getProductId());
+                    OrderItem orderItem = itemRequestDto.toEntity();
+                    product.addOrderItem(orderItem);
+                    order.addOrderItem(orderItem);
+                });
+    }
+
+    private Product findProductById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
     }
 
     @Scheduled(cron = "0 0 14 * * ?")

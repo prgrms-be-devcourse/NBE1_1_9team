@@ -6,6 +6,7 @@ import gc.cafe.domain.entity.Product;
 import gc.cafe.exception.AppException;
 import gc.cafe.exception.ErrorCode;
 import gc.cafe.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +28,12 @@ public class ProductService {
                 .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
     }
 
+    public List<Product> list() {
+        return productRepository.findAll();
+    }
+
     public Long update(Long productId, ProductRequestDto requestDto) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        Product product = findById(productId);
         product.update(
                 requestDto.getProductName(),
                 requestDto.getCategory(),
@@ -39,14 +43,10 @@ public class ProductService {
         return productRepository.save(product).getProductId();
 
     }
-
+    @Transactional
     public void delete(Long productId) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOUND_PRODUCT));
+        Product product = findById(productId);
         productRepository.delete(product);
     }
 
-    public List<Product> list() {
-        return productRepository.findAll();
-    }
 }
