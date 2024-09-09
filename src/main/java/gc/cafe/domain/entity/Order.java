@@ -41,4 +41,14 @@ public class Order extends BaseEntity {
         this.orderItems.add(orderItem);
         orderItem.assignOrder(this);
     }
+
+    public void update(String email,
+                       String address,
+                       String postcode,
+                       OrderStatus orderStatus){
+        this.email = email;
+        this.address = address;
+        this.postcode = postcode;
+        this.orderStatus = orderStatus;
+    }
 }

@@ -30,12 +30,17 @@ public class OrderController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Response<List<OrderResponseDto>>> readByEmail(@RequestParam String email){
+    public ResponseEntity<Response<List<OrderResponseDto>>> searchByEmail(@RequestParam String email){
         List<OrderResponseDto> responseDtos = orderService.findOrdersByEmail(email)
                 .stream()
                 .map(OrderResponseDto::new)
                 .toList();
         return ResponseEntity.ok().body(Response.success(responseDtos));
     }
-
+    @PutMapping("/update")
+    public ResponseEntity<Response<Long>> updateOrder(@RequestParam Long orderId,
+                                                                  @RequestBody OrderRequestDto requestDto){
+        Long updateId = orderService.update(orderId, requestDto);
+        return ResponseEntity.ok().body(Response.success(updateId));
+    }
 }

@@ -18,13 +18,13 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/save")
-    public ResponseEntity<Response<Long>> save(@RequestBody ProductRequestDto requestDto) {
+    public ResponseEntity<Response<Long>> saveProduct(@RequestBody ProductRequestDto requestDto) {
         Long productId = productService.save(requestDto);
         return ResponseEntity.ok().body(Response.success(productId));
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Response<List<ProductResponseDto>>> list() {
+    public ResponseEntity<Response<List<ProductResponseDto>>> getProductList() {
         List<Product> products = productService.list();
         List<ProductResponseDto> responseDtos = products.stream()
                 .map(ProductResponseDto::new)
@@ -33,7 +33,7 @@ public class ProductController {
     }
 
     @GetMapping("/read")
-    public ResponseEntity<Response<ProductResponseDto>> read(@RequestParam Long productId) {
+    public ResponseEntity<Response<ProductResponseDto>> readProduct(@RequestParam Long productId) {
         Product product = productService.findProductById(productId);
         ProductResponseDto responseDto = new ProductResponseDto(product);
         return ResponseEntity.ok().body(Response.success(responseDto));
@@ -41,14 +41,14 @@ public class ProductController {
 
 
     @PutMapping("/update")
-    public ResponseEntity<Response<Long>> update(@RequestParam Long productId,
+    public ResponseEntity<Response<Long>> updateProduct(@RequestParam Long productId,
                                                  @RequestBody ProductRequestDto requestDto) {
         Long updateId = productService.update(productId, requestDto);
         return ResponseEntity.ok().body(Response.success(updateId));
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<Void> delete(@RequestParam Long productId) {
+    public ResponseEntity<Void> deleteProduct(@RequestParam Long productId) {
         productService.delete(productId);
         return ResponseEntity.noContent().build();
     }
