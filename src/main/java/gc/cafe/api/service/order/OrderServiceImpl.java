@@ -10,11 +10,14 @@ import gc.cafe.domain.order.OrderStatus;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
+
+import static gc.cafe.domain.order.OrderStatus.*;
 
 @RequiredArgsConstructor
 @Transactional
@@ -56,5 +59,13 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream()
             .map(OrderResponse::of)
             .toList();
+    }
+
+    @Scheduled(cron = "0 0 14 * * *")
+    private void sendOrder() {
+        List<Order> orders = orderRepository.findByOrderStatus(ORDERED);
+
+        orders.forEach(order -> order.updateStatus(DELIVERING));
+
     }
 }
