@@ -1,6 +1,5 @@
 package gc.cafe.errors;
 
-
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -9,12 +8,12 @@ import java.time.LocalDateTime;
 public class ErrorResult {
 
     private int status;
-    private String message;
+    private Object errors;
     private LocalDateTime occurrenceTime;
 
-    public ErrorResult(int status, String message) {
+    public ErrorResult(int status, Object errors) {
         this.status = status;
-        this.message = message;
+        this.errors = errors;
         this.occurrenceTime = LocalDateTime.now();
     }
 }
