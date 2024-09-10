@@ -72,10 +72,10 @@ class OrderRepositoryTest extends IntegrationTestSupport {
 
         orderRepository.saveAll(List.of(order1, order2));
 
-        OrderProduct orderProduct1 = new OrderProduct(order1, product1, 1);
-        OrderProduct orderProduct2 = new OrderProduct(order1, product2, 2);
-        OrderProduct orderProduct3 = new OrderProduct(order2, product2, 2);
-        OrderProduct orderProduct4 = new OrderProduct(order2, product3, 4);
+        OrderProduct orderProduct1 = createOrderProduct(order1, product1, 1);
+        OrderProduct orderProduct2 = createOrderProduct(order1, product2, 2);
+        OrderProduct orderProduct3 = createOrderProduct(order2, product2, 2);
+        OrderProduct orderProduct4 = createOrderProduct(order2, product3, 4);
 
         orderProductRepository.saveAll(List.of(
             orderProduct1,
@@ -150,10 +150,10 @@ class OrderRepositoryTest extends IntegrationTestSupport {
 
         orderRepository.saveAll(List.of(order1, order2));
 
-        OrderProduct orderProduct1 = new OrderProduct(order1, product1, 1);
-        OrderProduct orderProduct2 = new OrderProduct(order1, product2, 2);
-        OrderProduct orderProduct3 = new OrderProduct(order2, product2, 2);
-        OrderProduct orderProduct4 = new OrderProduct(order2, product3, 4);
+        OrderProduct orderProduct1 = createOrderProduct(order1, product1, 1);
+        OrderProduct orderProduct2 = createOrderProduct(order1, product2, 2);
+        OrderProduct orderProduct3 = createOrderProduct(order2, product2, 2);
+        OrderProduct orderProduct4 = createOrderProduct(order2, product3, 4);
 
         orderProductRepository.saveAll(List.of(
             orderProduct1,
@@ -183,5 +183,13 @@ class OrderRepositoryTest extends IntegrationTestSupport {
             .containsExactlyInAnyOrder(
                 2, 4
             );
+    }
+
+    private OrderProduct createOrderProduct(Order order, Product product, int quantity) {
+        return OrderProduct.builder()
+            .order(order)
+            .product(product)
+            .quantity(quantity)
+            .build();
     }
 }
