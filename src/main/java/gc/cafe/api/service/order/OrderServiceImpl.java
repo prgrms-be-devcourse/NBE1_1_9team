@@ -5,6 +5,8 @@ import gc.cafe.api.service.order.request.OrderCreateServiceRequest;
 import gc.cafe.api.service.order.response.OrderResponse;
 import gc.cafe.domain.order.Order;
 import gc.cafe.domain.order.OrderRepository;
+import gc.cafe.domain.orderproduct.OrderProduct;
+import gc.cafe.domain.orderproduct.OrderProductRepository;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,18 +30,31 @@ public class OrderServiceImpl implements OrderService {
 
     private final ProductRepository productRepository;
 
+    private final OrderProductRepository orderProductRepository;
+
     @Override
     public OrderResponse createOrder(OrderCreateServiceRequest request) {
-        Set<Long> productIds = request.getOrderProductQuantity().keySet();
-        List<Product> products = productRepository.findAllById(productIds);
+
         Order order = Order.builder()
             .email(request.getEmail())
             .address(request.getAddress())
             .postcode(request.getPostcode())
-            .orderProducts(request.getOrderProductQuantity())
-            .products(products)
             .build();
+
         Order savedOrder = orderRepository.save(order);
+
+        Set<Long> productIds = request.getOrderProductQuantity().keySet();
+        List<Product> products = productRepository.findAllById(productIds);
+
+        if (productIds.size() != products.size()) {
+            throw new IllegalArgumentException("주문 상품 id 중 존재하지 않는 상품이 존재합니다.");
+        }
+
+        for (Product product : products) {
+            OrderProduct orderProduct = new OrderProduct(savedOrder, product, request.getOrderProductQuantity().get(product.getId()));
+            orderProductRepository.save(orderProduct);
+        }
+
         return OrderResponse.of(savedOrder);
     }
 

@@ -34,23 +34,24 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     @Builder
-    private Order(String email, String address, String postcode, List<Product> products, Map<Long, Integer> orderProducts) {
+    private Order(String email, String address, String postcode) {
         this.email = email;
         this.address = Address.builder()
             .address(address)
             .postcode(postcode)
             .build();
         this.orderStatus = OrderStatus.ORDERED;
-        this.orderProducts = products.stream()
-            .map(product -> new OrderProduct(this, product, orderProducts.get(product.getId())))
-            .collect(Collectors.toList());
     }
 
     public void updateStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public void addOrderProduct(OrderProduct orderProduct) {
+        this.orderProducts.add(orderProduct);
     }
 }

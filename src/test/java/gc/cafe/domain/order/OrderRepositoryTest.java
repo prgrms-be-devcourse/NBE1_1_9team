@@ -1,6 +1,8 @@
 package gc.cafe.domain.order;
 
 import gc.cafe.IntegrationTestSupport;
+import gc.cafe.domain.orderproduct.OrderProduct;
+import gc.cafe.domain.orderproduct.OrderProductRepository;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +25,9 @@ class OrderRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderProductRepository orderProductRepository;
 
     @DisplayName("이메일을 통해 주문 목록을 조회한다.")
     @Test
@@ -57,25 +62,27 @@ class OrderRepositoryTest extends IntegrationTestSupport {
             .email(email)
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(products.get(0).getId(), 1, products.get(1).getId(), 2))
-            .products(List.of(
-                product1,
-                product2
-            ))
             .build();
 
         Order order2 = Order.builder()
             .email(email)
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(products.get(0).getId(), 2, products.get(2).getId(), 4))
-            .products(List.of(
-                product1,
-                product3
-            ))
             .build();
 
         orderRepository.saveAll(List.of(order1, order2));
+
+        OrderProduct orderProduct1 = new OrderProduct(order1, product1, 1);
+        OrderProduct orderProduct2 = new OrderProduct(order1, product2, 2);
+        OrderProduct orderProduct3 = new OrderProduct(order2, product2, 2);
+        OrderProduct orderProduct4 = new OrderProduct(order2, product3, 4);
+
+        orderProductRepository.saveAll(List.of(
+            orderProduct1,
+            orderProduct2,
+            orderProduct3,
+            orderProduct4
+        ));
 
         //when
         List<Order> findOrdersByEmail = orderRepository.findByEmail(email);
@@ -133,25 +140,28 @@ class OrderRepositoryTest extends IntegrationTestSupport {
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(products.get(0).getId(), 1, products.get(1).getId(), 2))
-            .products(List.of(
-                product1,
-                product2
-            ))
             .build();
 
         Order order2 = Order.builder()
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(products.get(0).getId(), 2, products.get(2).getId(), 4))
-            .products(List.of(
-                product1,
-                product3
-            ))
             .build();
 
         orderRepository.saveAll(List.of(order1, order2));
+
+        OrderProduct orderProduct1 = new OrderProduct(order1, product1, 1);
+        OrderProduct orderProduct2 = new OrderProduct(order1, product2, 2);
+        OrderProduct orderProduct3 = new OrderProduct(order2, product2, 2);
+        OrderProduct orderProduct4 = new OrderProduct(order2, product3, 4);
+
+        orderProductRepository.saveAll(List.of(
+            orderProduct1,
+            orderProduct2,
+            orderProduct3,
+            orderProduct4
+        ));
+
         //when
         List<Order> findOrdersByOrderStatus = orderRepository.findByOrderStatus(ORDERED);
         //then

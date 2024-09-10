@@ -32,5 +32,7 @@ public class OrderProduct extends BaseEntity {
         this.order = order;
         this.product = product;
         this.quantity = quantity;
+        order.addOrderProduct(this);
     }
+
 }
