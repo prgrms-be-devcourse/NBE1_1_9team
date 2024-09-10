@@ -18,7 +18,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 import static gc.cafe.domain.order.OrderStatus.DELIVERING;
 import static gc.cafe.domain.order.OrderStatus.ORDERED;

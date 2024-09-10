@@ -2,7 +2,6 @@ package gc.cafe.domain.order;
 
 import gc.cafe.domain.BaseEntity;
 import gc.cafe.domain.orderproduct.OrderProduct;
-import gc.cafe.domain.product.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,8 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
