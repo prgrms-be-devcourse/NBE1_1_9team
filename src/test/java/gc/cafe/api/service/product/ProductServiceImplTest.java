@@ -122,7 +122,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
 
         //when
         //then
-        assertThatThrownBy(()->productService.deleteProduct(productId))
+        assertThatThrownBy(() -> productService.deleteProduct(productId))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("해당 id : " + productId + "를 가진 상품을 찾을 수 없습니다.");
     }
@@ -171,7 +171,7 @@ class ProductServiceImplTest extends IntegrationTestSupport {
 
         //when
         //then
-        assertThatThrownBy(()->productService.updateProduct(productId,request))
+        assertThatThrownBy(() -> productService.updateProduct(productId, request))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("해당 id : " + productId + "를 가진 상품을 찾을 수 없습니다.");
     }

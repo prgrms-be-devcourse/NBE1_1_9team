@@ -86,7 +86,7 @@ public class OrderControllerDocsTest extends RestDocsSupport {
                     .build());
 
         mockMvc.perform(
-                post("/api/v1/orders/new")
+                post("/api/v1/orders")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(request)
                     ))
@@ -98,7 +98,7 @@ public class OrderControllerDocsTest extends RestDocsSupport {
                 requestFields(
                     fieldWithPath("email").type(JsonFieldType.STRING)
                         .description("주문자 이메일")
-                        .attributes(field("constraints",  "최대 50자"))
+                        .attributes(field("constraints", "최대 50자"))
                         .attributes(field("format", "XXXX@gamil.com 과 같은 이메일 형식")),
                     fieldWithPath("address").type(JsonFieldType.STRING)
                         .description("주문자 주소")
@@ -175,8 +175,8 @@ public class OrderControllerDocsTest extends RestDocsSupport {
                     .build());
 
         mockMvc.perform(
-            get("/api/v1/orders/{id}", id)
-                .contentType(MediaType.APPLICATION_JSON)
+                get("/api/v1/orders/{id}", id)
+                    .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isOk())
@@ -222,7 +222,6 @@ public class OrderControllerDocsTest extends RestDocsSupport {
     @Test
     void getOrdersByEmail() throws Exception {
         String email = "test@gmail.com";
-
 
 
         given(orderService.getOrdersByEmail(email))
@@ -273,9 +272,9 @@ public class OrderControllerDocsTest extends RestDocsSupport {
             ));
 
         mockMvc.perform(
-            get("/api/v1/orders/")
-                .param("email", email)
-                .contentType(MediaType.APPLICATION_JSON)
+                get("/api/v1/orders/")
+                    .param("email", email)
+                    .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isOk())

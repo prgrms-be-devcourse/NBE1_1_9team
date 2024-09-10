@@ -7,6 +7,8 @@ import gc.cafe.api.service.order.response.OrderResponse;
 import gc.cafe.config.AsyncTestConfig;
 import gc.cafe.domain.order.Order;
 import gc.cafe.domain.order.OrderRepository;
+import gc.cafe.domain.orderproduct.OrderProduct;
+import gc.cafe.domain.orderproduct.OrderProductRepository;
 import gc.cafe.domain.product.Product;
 import gc.cafe.domain.product.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +18,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 import static gc.cafe.domain.order.OrderStatus.DELIVERING;
 import static gc.cafe.domain.order.OrderStatus.ORDERED;
@@ -34,6 +35,9 @@ class OrderServiceImplTest extends IntegrationTestSupport {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderProductRepository orderProductRepository;
 
 
     @DisplayName("상품을 주문한다.")
@@ -79,11 +83,20 @@ class OrderServiceImplTest extends IntegrationTestSupport {
 
         List<Order> orders = orderRepository.findAll();
 
+        List<OrderProduct> orderProducts = orderProductRepository.findAll();
+
         //then
         assertThat(orders).hasSize(1)
             .extracting("id", "email", "address.address", "address.postcode", "orderStatus")
             .containsExactlyInAnyOrder(
                 tuple(orders.get(0).getId(), "test@gmail.com", "서울시 강남구", "125454", ORDERED)
+            );
+
+        assertThat(orderProducts).hasSize(2)
+            .extracting("order.id", "product.id", "quantity")
+            .containsExactlyInAnyOrder(
+                tuple(orders.get(0).getId(), product1.getId(), 1),
+                tuple(orders.get(0).getId(), product2.getId(), 2)
             );
 
         assertThat(response)
@@ -125,14 +138,14 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(products.get(0).getId(), 1, products.get(1).getId(), 2))
-            .products(List.of(
-                product1,
-                product2
-            ))
             .build();
 
         Order savedOrder = orderRepository.save(order);
+
+        OrderProduct orderProduct1 = createOrderProduct(order, products.get(0), 1);
+        OrderProduct orderProduct2 = createOrderProduct(order, products.get(1), 2);
+
+        orderProductRepository.saveAll(List.of(orderProduct1, orderProduct2));
 
         //when
         OrderResponse response = orderService.getOrder(savedOrder.getId());
@@ -188,25 +201,28 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(products.get(0).getId(), 1, products.get(1).getId(), 2))
-            .products(List.of(
-                product1,
-                product2
-            ))
             .build();
 
         Order order2 = Order.builder()
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(products.get(0).getId(), 2, products.get(1).getId(), 4))
-            .products(List.of(
-                product1,
-                product2
-            ))
             .build();
 
         orderRepository.saveAll(List.of(order1, order2));
+
+        OrderProduct orderProduct1 = createOrderProduct(order1, products.get(0), 1);
+        OrderProduct orderProduct2 = createOrderProduct(order1, products.get(1), 2);
+        OrderProduct orderProduct3 = createOrderProduct(order2, products.get(0), 2);
+        OrderProduct orderProduct4 = createOrderProduct(order2, products.get(1), 4);
+
+        orderProductRepository.saveAll(List.of(
+            orderProduct1,
+            orderProduct2,
+            orderProduct3,
+            orderProduct4
+        ));
+
         //when
         List<OrderResponse> response = orderService.getOrdersByEmail("test@gmail.com");
 
@@ -258,25 +274,27 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(products.get(0).getId(), 1, products.get(1).getId(), 2))
-            .products(List.of(
-                product1,
-                product2
-            ))
             .build();
 
         Order order2 = Order.builder()
             .email("test@gmail.com")
             .address("서울시 강남구")
             .postcode("125454")
-            .orderProducts(Map.of(products.get(0).getId(), 2, products.get(1).getId(), 4))
-            .products(List.of(
-                product1,
-                product2
-            ))
             .build();
 
         orderRepository.saveAll(List.of(order1, order2));
+
+        OrderProduct orderProduct1 = createOrderProduct(order1, products.get(0), 1);
+        OrderProduct orderProduct2 = createOrderProduct(order1, products.get(1), 2);
+        OrderProduct orderProduct3 = createOrderProduct(order2, products.get(0), 2);
+        OrderProduct orderProduct4 = createOrderProduct(order2, products.get(1), 4);
+
+        orderProductRepository.saveAll(List.of(
+            orderProduct1,
+            orderProduct2,
+            orderProduct3,
+            orderProduct4
+        ));
 
         //when
         orderService.sendOrder();
@@ -289,4 +307,12 @@ class OrderServiceImplTest extends IntegrationTestSupport {
             .containsExactlyInAnyOrder(DELIVERING, DELIVERING);
     }
 
+
+    private OrderProduct createOrderProduct(Order order, Product product, int quantity) {
+        return OrderProduct.builder()
+            .order(order)
+            .product(product)
+            .quantity(quantity)
+            .build();
+    }
 }

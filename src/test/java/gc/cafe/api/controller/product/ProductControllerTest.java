@@ -41,15 +41,15 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.code").value("200"))
-            .andExpect(jsonPath("$.status").value("OK"))
-            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.code").value("201"))
+            .andExpect(jsonPath("$.status").value("CREATED"))
+            .andExpect(jsonPath("$.message").value("CREATED"))
             .andExpect(jsonPath("$.data").isMap())
             .andExpect(jsonPath("$.data.id").isNumber())
             .andExpect(jsonPath("$.data.name").isString())
@@ -68,7 +68,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -91,7 +91,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -123,15 +123,15 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.code").value("200"))
-            .andExpect(jsonPath("$.status").value("OK"))
-            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.code").value("201"))
+            .andExpect(jsonPath("$.status").value("CREATED"))
+            .andExpect(jsonPath("$.message").value("CREATED"))
             .andExpect(jsonPath("$.data").isMap())
             .andExpect(jsonPath("$.data.id").isNumber())
             .andExpect(jsonPath("$.data.name").isString())
@@ -150,7 +150,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -182,15 +182,15 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.code").value("200"))
-            .andExpect(jsonPath("$.status").value("OK"))
-            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.code").value("201"))
+            .andExpect(jsonPath("$.status").value("CREATED"))
+            .andExpect(jsonPath("$.message").value("CREATED"))
             .andExpect(jsonPath("$.data").isMap())
             .andExpect(jsonPath("$.data.id").isNumber())
             .andExpect(jsonPath("$.data.name").isString())
@@ -210,7 +210,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -232,7 +232,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -264,15 +264,15 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.code").value("200"))
-            .andExpect(jsonPath("$.status").value("OK"))
-            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.code").value("201"))
+            .andExpect(jsonPath("$.status").value("CREATED"))
+            .andExpect(jsonPath("$.message").value("CREATED"))
             .andExpect(jsonPath("$.data").isMap())
             .andExpect(jsonPath("$.data.id").isNumber())
             .andExpect(jsonPath("$.data.name").isString())
@@ -292,7 +292,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -314,7 +314,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
@@ -346,15 +346,15 @@ class ProductControllerTest extends ControllerTestSupport {
                 .build());
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
             .andDo(print())
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.code").value("200"))
-            .andExpect(jsonPath("$.status").value("OK"))
-            .andExpect(jsonPath("$.message").value("OK"))
+            .andExpect(jsonPath("$.code").value("201"))
+            .andExpect(jsonPath("$.status").value("CREATED"))
+            .andExpect(jsonPath("$.message").value("CREATED"))
             .andExpect(jsonPath("$.data").isMap())
             .andExpect(jsonPath("$.data.id").isNumber())
             .andExpect(jsonPath("$.data.name").isString())
@@ -374,7 +374,7 @@ class ProductControllerTest extends ControllerTestSupport {
             .build();
 
         mockMvc.perform(
-                post("/api/v1/products/new")
+                post("/api/v1/products")
                     .content(objectMapper.writeValueAsString(request))
                     .contentType(MediaType.APPLICATION_JSON)
             )
