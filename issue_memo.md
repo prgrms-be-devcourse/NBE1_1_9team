@@ -154,3 +154,5 @@ url메서드 리턴타입 및 DTO 상속구조? 제네릭? 어떻게 해야할�
 
 3. 컨트롤러는 프론트와 통신하는 url메서드만 <br>
 private 내부 메서드 작성하지 말 것
+
+4. BindingResult대신 @ControllerAdvice 활용 가능
