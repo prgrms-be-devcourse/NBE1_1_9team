@@ -156,3 +156,5 @@ url메서드 리턴타입 및 DTO 상속구조? 제네릭? 어떻게 해야할�
 private 내부 메서드 작성하지 말 것
 
 4. BindingResult대신 @ControllerAdvice 활용 가능
+
+5. @NoArgsConstructor를 protexted로 지정 : 프록시 객체만 접근 가능하도록
