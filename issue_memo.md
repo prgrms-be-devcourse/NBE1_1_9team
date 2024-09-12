@@ -148,13 +148,25 @@ url메서드 리턴타입 및 DTO 상속구조? 제네릭? 어떻게 해야할�
    \* 컨트롤러 dto가 상위 계층, 엔터티는 하위 계층인데 하위계층인 엔터티가 수정될 여지가 생김, <br>
 하위계층인 엔터티는 가능한 수정되면 안됨
 
-2. @Transactional을 repository에 달면 transaction범위가 너무 작아짐 (save,update,delete단위로)<br>
+2. DTO를 반환하는 일 : 도메인객체에서 반환하기 보단 DTO를 생성하는 곳에서 엔티티를 받아서 반환하는게 좋을 것 같습니다 !
+    -> dto와 엔터티 역할의 차이 이
+
+3. @Transactional을 repository에 달면 transaction범위가 너무 작아짐 (save,update,delete단위로)<br>
    -> 서비스에서 논리적작업메서드단위로 트랜잭션이 실행되도록, 서비스클래스에 달아주기 <br>
    \* (readOnly = true) 같은 작업도
 
-3. 컨트롤러는 프론트와 통신하는 url메서드만 <br>
+4. 컨트롤러는 프론트와 통신하는 url메서드만 <br>
 private 내부 메서드 작성하지 말 것
 
-4. BindingResult대신 @ControllerAdvice 활용 가능
+5. BindingResult대신 @ControllerAdvice 활용 가능
 
-5. @NoArgsConstructor를 protexted로 지정 : 프록시 객체만 접근 가능하도록
+6. @NoArgsConstructor를 protexted로 지정 : 프록시 객체만 접근 가능하도록
+
+7. @Data에 @AllArgsConstructor가 이미 존재함
+
+8. 이런식으로 작성해서 테스트가 한번에 여러 메서드를 검증하지 않도록 하는게 좋을것 같아요 ! 
+단위 테스트는 한 기능에 대한 테스트를 진행해야한다고 생각해서 기존 코드는registerProduct를 검증하고있지는 않지만 사용하고 있는 부분에서는 올바르게 테스트가 작성되었느냐는 의문이 들게됩니다 !
+DisplayName을 통해 이름도 지정해주는게 좋습니다 !
+(ex 조회 테스트에서 저장과 조회를 같이 테스트 하게됨. service의 조회를 테스트한다면, repository를 이용해서 저장하고 service로 조회하는식으로)
+
+9. 엔터티의 공통 필드는 @MappedSuperClass 활용
