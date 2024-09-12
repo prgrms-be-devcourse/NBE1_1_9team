@@ -116,3 +116,5 @@ CREATE TABLE order_items
     CONSTRAINT fk_order_items_to_product FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
 ```
+***
+[프로젝트 이슈](https://github.com/Anyeon00/NBE1_1_9team/blob/main/issue_memo.md)
