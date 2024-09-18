@@ -66,7 +66,7 @@ ex)
         this.postcode = postcode;
         this.orderItems = orderItems;
     }
-
+//접근제한자 private으로 설정
 ```
 
 2. @NoArgsConstructor(access = AccessLevel.PROTECTED) <br>
