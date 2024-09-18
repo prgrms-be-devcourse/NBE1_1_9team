@@ -19,8 +19,8 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Products {
     @Id
-    @Column(length = 16)
-    private byte[] productId;
+    @Column(name="product_id", length = 16)
+    private byte[] id;
     @Column(nullable = false, length = 20)
     private String productName;
     @Column(nullable = false, length = 50)
@@ -40,7 +40,7 @@ public class Products {
     //** internal logic**//
     @Builder
     private Products(String productName, String category, Long price, String description) {
-        this.productId = UUIDConversion.uuidToBytes(UUID.randomUUID());
+        this.id = UUIDConversion.uuidToBytes(UUID.randomUUID());
         this.productName = productName;
         this.category = category;
         this.price = price;
@@ -48,7 +48,7 @@ public class Products {
     }
 
     public byte[] getProductId() {
-        return productId;
+        return id;
 
     }
     public Products setTo(Products newProduct) {
@@ -60,7 +60,7 @@ public class Products {
     }
     public static ProductsRequestDTO getRequestDTOFromProducts(Products products) {
         ProductsRequestDTO dto = new ProductsRequestDTO();
-        dto.setProductId(UUIDConversion.bytesToUUID(products.productId).toString());
+        dto.setProductId(UUIDConversion.bytesToUUID(products.id).toString());
         dto.setProductName(products.productName);
         dto.setCategory(products.category);
         dto.setPrice(products.price);

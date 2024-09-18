@@ -18,8 +18,8 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Orders {
-    @Id @Column(length = 16)
-    private byte[] orderId;
+    @Id @Column(name="order_id", length = 16)
+    private byte[] id;
     @Column(nullable = false, length = 50)
     private String email;
     @Column(nullable = false, length = 200)
@@ -38,7 +38,7 @@ public class Orders {
 
     //** internal logic **//
     public byte[] getOrderId() {
-        return orderId;
+        return id;
     }
 
     public String getEmail() {
@@ -46,7 +46,7 @@ public class Orders {
     }
     @Builder
     private Orders(String email, String address, String postcode) {
-        orderId = UUIDConversion.uuidToBytes(UUID.randomUUID());
+        id = UUIDConversion.uuidToBytes(UUID.randomUUID());
         orderStatus = OrderStatus.UNPROCESSED;
         this.email = email;
         this.address = address;
@@ -68,7 +68,7 @@ public class Orders {
 
     public static OrdersResponseDTO getResponseDTOFromOrders(Orders orders) {
         OrdersResponseDTO ordersResponseDTO = new OrdersResponseDTO();
-        ordersResponseDTO.setOrderId(UUIDConversion.bytesToUUID(orders.orderId).toString());
+        ordersResponseDTO.setOrderId(UUIDConversion.bytesToUUID(orders.id).toString());
         ordersResponseDTO.setEmail(orders.email);
         ordersResponseDTO.setAddress(orders.address);
         ordersResponseDTO.setPostcode(orders.postcode);

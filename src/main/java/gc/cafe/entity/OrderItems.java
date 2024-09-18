@@ -20,10 +20,10 @@ public class OrderItems {
     @GeneratedValue
     private Long seq;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "order_id")
     private Orders order;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "productId")
+    @JoinColumn(name = "product_id")
     private Products product;
     @Column(nullable = false, length = 50)
     private String category;
